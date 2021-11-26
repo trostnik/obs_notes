@@ -1,0 +1,1 @@
+Both try-with-resources and .use are designed to work with something that needs to be closed(files). You can use them to operate with these kind of objects and be sure that they will be automatically closed

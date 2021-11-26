@@ -1,0 +1,12 @@
+Observables: 
+	Can be created either using .create and implementing SAM interface or using build in operators like just, range, timer etc. After calling .observe on it creates disposable which need to be passed to CompositeDisposable and then disposed. Needs to call onComplete to avoid memory leaks. They are cold. We can use side effects on them like(onDispose, onComplete), which won't affect observable itself. There are 3 other types for specific tasks: Single, Mayble, Completable. Single emits onSuccess() or onError(). It is used when we need to get only one value or error. Maybe emits onComplete() or onError(). It doesn't emit any items. It is used for the cases when we need to know if operation failed or done successfully. Maybe emit onComplete(), onError() and optionally some item. Used for cases when we need to know if operation is completed successfully and optionally get some value.
+Subjects: 
+	Implement both observables and observers. They are used when we need to manually add items to observable. They are hot. There are PublishSubject, ReplaySubject, BufferSubject, AsyncSubject. PublishSubject emits only new values to observers. ReplaySubject will replay initial value or latest onNext() value. BufferSubject will replay latest items up to a buffer. AsyncSubject will replay lates onNext() item before onComplete().
+Scheduler:
+	Shchedulers are the abstraction over thread pool. It is used to schedule work on different thread. By default work is happening in the caller Scheduler(thread) but we can change this by using subscibeOn() method. It changes thread on which Observable work will begin up until observeOn(). observeOn() changes thread of work after itself. There are IO, Computation, NewThread, Main schedulers. IO Scheduler is optimized to work with receiving and providing data, like reading files, getting data from network request. Computation scheduler is optimized to work with heavy computational work. Number of thread are boundede to number of cores present in system. NewThread spawns a new thread for every observer. Main is thread on which every work with UI needs to be done.
+Flowables:
+	Flowables are the same as Observables but they provide a way for handling backpressure.
+Processors:
+	Processors are the same as Subjects but they provide a way for handling backpressure.
+Operators:
+	

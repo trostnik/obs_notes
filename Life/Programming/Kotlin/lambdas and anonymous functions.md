@@ -1,0 +1,1 @@
+lambdas are functions that doesn't have declaration, but passed(used) as expression. They are converted in anonymous object. Anonymous functions are the same, but they use "fun" keyword. Inside anonymous function return returns from anonymous function, unlike lamdas where return returns from caller function 

@@ -1,0 +1,1 @@
+Reflection in Kotlin can be used to look inside(introspect) the class in the runtime. It allows us to create api which can work for any class. It allows to call functions, get properties, constructors, use annotations, create instances of objects. kotlin.reflect is used to do this. 

@@ -1,0 +1,1 @@
+For property delegation we need to define something that return object containing operator fun getValue(receiver, KProperty<\*>) and setValue(receiver,KProperty<\*>, newValue: T). After that we can use by keyword.

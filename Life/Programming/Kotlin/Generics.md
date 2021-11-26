@@ -1,0 +1,1 @@
+We need generics that extends some class or implement some interface to be able to refer in generic class exact class  that is passed instead of parent class/interface.

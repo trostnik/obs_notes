@@ -1,0 +1,1 @@
+reified keyword is used to store type of passed parameter to be able to know what exact class is passed and to operate with it accordingly

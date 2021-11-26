@@ -1,0 +1,1 @@
+Kotlin companion is used for replacing static methods and for adding fabric methods(methods that create instances of class). Cannot be overriden. If we need to access methods from companion objects in Java, and it is required to be static use @JvmStatic @JvmField. We can define expand functions for companion object and use them as static methods of class

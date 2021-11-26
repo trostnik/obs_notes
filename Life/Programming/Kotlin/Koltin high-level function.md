@@ -1,0 +1,1 @@
+High-level functions are functions that take other function as a parameter or/and return function
