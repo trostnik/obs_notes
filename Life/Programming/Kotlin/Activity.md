@@ -29,3 +29,9 @@ We can use startActivityForResult() to get result from another activity(for exam
 When configuratin change happens activity enters onPause(), onStop(), onDestroy(), onCreate(), onStart(), onResume(). To save data ViewModel(which survives configuration change), onSaveInstanceState() and persistent storage used. 
 Configruration change happens on screen rotation, on multi-window switch, changing size of window, changing language, changing input device(keyboard).
 When the dialog or activity, which partially covers the screen opens up, then activity enters onPause() state. If new activity takes the whole screen and pevious activity is no longer visible to the user then previous activity enters onStop() state. If user presses the home button activity behaves like it was completely covered.
+Task - is a collection of activities that user interacts with.
+Launch modes:
+standard: behaves normally - every activity is placed on top of backstack
+singleTop: if activity A on top of the stack and intent to activity A is happening again it is not created again but recalling and call onNewIntent()
+singleTask: Activity is launched in separate task and behaves like singleTop
+singleTask: Activity is launched in singleTask and every other activities are opened in different task
