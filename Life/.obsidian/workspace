@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Programming/Kotlin/Activity.md",
+            "file": "Programming/Kotlin/Patterns.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Programming/Kotlin/Activity.md",
+                "file": "Programming/Kotlin/Patterns.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,6 +88,7 @@
   },
   "active": "29ef1ff28a8c8800",
   "lastOpenFiles": [
+    "Programming/Kotlin/Patterns.md",
     "Programming/Kotlin/Activity.md",
     "Programming/Kotlin/Cicerone.md",
     "Programming/Kotlin/Navigation Component.md",
