@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Programming/Kotlin/Patterns.md",
+            "file": "Programming/Kotlin/Activity.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Programming/Kotlin/Patterns.md",
+                "file": "Programming/Kotlin/Activity.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,12 +88,13 @@
   },
   "active": "29ef1ff28a8c8800",
   "lastOpenFiles": [
+    "Programming/Kotlin/Activity.md",
+    "Programming/Kotlin/Architectural pattern.md",
     "Programming/Kotlin/Patterns.md",
     "Programming/Kotlin/Coroutines.md",
     "Programming/Kotlin/Covariance, contravariance, invariance.md",
     "Programming/Kotlin/Moxy.md",
     "Programming/Kotlin/Compose.md",
-    "Programming/Kotlin/Activity.md",
     "Programming/Kotlin/Cicerone.md",
     "Programming/Kotlin/Navigation Component.md"
   ]

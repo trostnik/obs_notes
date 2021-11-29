@@ -35,3 +35,5 @@ standard: behaves normally - every activity is placed on top of backstack
 singleTop: if activity A on top of the stack and intent to activity A is happening again it is not created again but recalling and call onNewIntent()
 singleTask: Activity is launched in separate task and behaves like singleTop
 singleTask: Activity is launched in singleTask and every other activities are opened in different task
+## Result Api
+Result api is used instead of startActivityForResult because former was not stable due to the fact that activity that called other activity for result could have been destroyed and won't get handled. Result api register listener at the start of the lifecycle, so it is guaranteed to work. To implement this we need to use registerActivityForResult and provide it with ActivityResultContract(which defines input type of intent, and type of received data) and ActivityResultCallback(that defines actions onReceiveResult). registerActivityForResult can be launched only when Activity is at state CREATED and further.
