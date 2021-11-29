@@ -89,9 +89,12 @@
   "active": "29ef1ff28a8c8800",
   "lastOpenFiles": [
     "Programming/Kotlin/Patterns.md",
+    "Programming/Kotlin/Coroutines.md",
+    "Programming/Kotlin/Covariance, contravariance, invariance.md",
+    "Programming/Kotlin/Moxy.md",
+    "Programming/Kotlin/Compose.md",
     "Programming/Kotlin/Activity.md",
     "Programming/Kotlin/Cicerone.md",
-    "Programming/Kotlin/Navigation Component.md",
-    "Programming/Kotlin/Coroutines.md"
+    "Programming/Kotlin/Navigation Component.md"
   ]
 }

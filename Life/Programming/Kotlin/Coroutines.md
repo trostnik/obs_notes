@@ -9,17 +9,15 @@ within it. Returns a Job, which can be cancelled, paused, resumed, waited for et
 of hirarchy of jobs(If child Job gets cancelled or throw exception, parent job gets cancelled, if
 SupervisorJob is not used)
 coroutineScope{} is a suspend function that takes block of code and runs it in inherited Coroutine
-Scope, but overrides Job. It is used to create function that launched multiple suspend functions
-in parallel.
-To cancel coroutine we need to check inside it that it still is active, because if we don't check
+Scope, but overrides Job. It is used to create function that launched multiple suspend functions in parallel.
+To cancel coroutine we need to check inside it that it still is active, because if we don't check and there is some computation happening inside
 it just won't be cancelled. Cancellable suspend functions(standard kotlin library functions) are 
 cancellable and if we call them inside cancelled coroutine they throw CancellationException which
 can be handled. But inside finally block we cannot use any suspend functions(because coroutine is
 already cancelled). To overcome this we can use NonCancellable context. 
 By default coroutines are sequential which means that they will execute one after another and if we
 use them as usual functions that return results they will execute one after another, not in parallel.
-To execute suspend functions that return something in parallel we need to use async{} .await(). Async
-creates a coroutine, but unlike the usual one it returns Deffered<T> instead of Job. This Deffered 
+To execute suspend functions that return something in parallel we need to use async{} .await(). Async creates a coroutine, but unlike the usual one it returns Deffered instead of Job. This Deffered 
 contains some result which then can be received using await(). Hence we can run multiple functions
 simultaneously and receive their results all at once. The time is defined by the longest running
 operation. We can use async(start = CoroutineStart.LAZY) to delay the execution of the function.
@@ -67,10 +65,20 @@ items that managed to get through handler, all other items will be conflated(del
 used like usual collect but it will drop items that were emitted when handler was in process of handling
 Zip function will combine corresponding values of two flows, other items from flows will be lost.
 Combine function will combine lates values from one flow with latest values from another flow.
-flatMapConcat will transform Flow<Flow<T>> in Flow<T> and perform some mapping and then emit items
+flatMapConcat will transform Flow<Flow\<T\>> in Flow\<T\> and perform some mapping and then emit items
 sequentially(wait for previous inner flow to complete and then start next one)
 flatMapMerge will convert items into a single flow and emit items as soon as possible(it won't wait for
 previous emits, it will perceive all emits as a part of one flow)
 flatMapLatest is like collectLatest(collection of previous flow is cancelled when new flow emitted) 
 To handle errors from flows we can use try{}catch{}, or we can use .catch{} operator.
+## Channels
 Channels are used to receive and send a stream of values. They are like subjects from RxJava. send and receive functions are suspend functions and needed to be launched in CoroutineScope. Channels can be closed to be sure they stopped sending items. There are channel builders. One of them - produce. It returns ReceiveChannel and it's scope implements Channel interface. Pipeline is a pattern where producer produce potentially infinite number of items and consumer waits for them. If multiple coroutines listen to the same channel they cooperate to get items. Each item consumed only once. If multiple coroutines send to the same channel channel consumes all the items with respect of the order of execution. By default channels work like rendezvous(they wait for each other. if sender sends, but receiver is busy it gets suspended and vice versa). But we can define buffer for Channel and it values will be sent to buffer and receiver will process them as fast as it can(without waiting for sending processing).  Ticker channels are rendezvous channels that send Unit each given period.
+## Exception Handling
+Coroutines builders can either propogate uncaught errors(pass the error to the next builder, throw error immediately): launch(), actor() or wait for the user to handle them(through await() or receive()).  CoroutineExceptionHandler is used to override behaviour when facing uncaught errors. It doesn't recover from exceptions, when it is launched exception already happened, it is used to log additional info, restart app, terminate etc. We need to define exceptionHandler if we want only for the parent scope, because all child coroutines will cancel parent coroutine with caught exception and it does not make sense to define CoroutineExceptionHandler for them.
+Cancellation is coroutines is bidirectional(if child fails parent gets cancelled, if parent fails children get cancelled). But we can use SupervisorJob() to override this. If we provide CoroutineScope with SupervisorJob(), then if child coroutine gets cancelled, parent coroutine won't. There is also a builder for this supervisorScope{}. If we use SupervisorJob() we need to handle all child coroutines because exceptions won't propogate to parent.
+## Shared mutable state
+When multiple coroutines launched and they change the state of some shared variable it won't get expected result, because they run without any synchronization. To be able to synchronize them we need to use either single thread for making changed(withContext(singleThreadContext)) or we can use Mutex(). Mutex controlls the behaviour of changing coroutines and they get executed in controlled way. There is mutex.withLock builder that create block mutex.lock(); try { ... } finally { mutex.unlock() }. 
+Actor is an entity which contains state, channel for communication and behaves as coroutine. It can provide shared mutable state with thread safety, but it can be changed only through messages of the channel. There is builder for actor: actor\<T\>{} which takes type of message, that will be send to and from actor. 
+## StateFlow and SharedFlow
+StateFlow is a hot flow which emit latest value and each subsequent value to consumer. It can be used to present mutual state flow, using MutableStateFlow. StateFlow lives in memory for as long as there is reference to it. StateFlow requires initial value and it doesn't unregister consumer when the VIEW goes to STOPPED state.To achieve the same behavior,you need to collect the flow from a `Lifecycle.repeatOnLifecycle` block( repeatOnLifecycle launches the block in a new coroutine every time the  lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED). We can use .shareIn  operator to transform any cold flow to hot flow. It takes coroutineScope, replayNumber and start behaviour policy(when producer starts emitting and how it will behave)
+SharedFlow is hot flow and it is a generalization of StateFlow. It doesn't take initial default value and doesn't emit nothing by default, unlike StateFlow.

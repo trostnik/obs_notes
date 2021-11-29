@@ -1,3 +1,6 @@
-Factory Method
+## Factory Method
 Factory method is used to decouple object creation(instantiation) from client logic of usage of this product. We need to create factory for products that implement the same interface. Inside the factory we have fabric creation method that returns that general inteface. Then we create concrete factory that returns concrete products. To use this patter we need to create logic that depends on abstract products. And use factories. We work with general  factory and then pass concrete factory.
-Abstract Factory
+## Abstract Factory
+Abstract factory creates family of the same-type products using general interface of those products. It decouples products creation from usage of products and makes it easy to maintain such code. If we already have factory method implemented in code, and after refactoring we need to add more classes, we may not create new factory for this class, but move these classes in single AbstractFactory.
+## Builder
+Builder is a patterns which is used for creation of complex objects with a lot of fields and nested classes, especially with optional fields. You need to create abstract builder class that defines each existing initialization operation, then concrete builder class defines product that gets created and method that return complete product and overrides initialization methods. There is also optional director role, that can define concrete steps of building product. 
