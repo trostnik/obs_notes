@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Programming/Kotlin/Fragmentos.md",
+            "file": "Programming/Kotlin/Coroutines.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Programming/Kotlin/Fragmentos.md",
+                "file": "Programming/Kotlin/Coroutines.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,15 +88,15 @@
   },
   "active": "7217f0ca4cef828a",
   "lastOpenFiles": [
-    "Programming/Kotlin/Fragmentos.md",
+    "Programming/Kotlin/Coroutines.md",
+    "Programming/Kotlin/Retrofit.md",
+    "Programming/Kotlin/Ok.md",
     "Programming/Kotlin/Activity.md",
-    "Untitled.md",
-    "Programming/Kotlin/Koltin high-level function.md",
-    "Programming/Kotlin/Navigation Component.md",
+    "Programming/Kotlin/Covariance, contravariance, invariance.md",
     "Programming/Kotlin/Architectural pattern.md",
     "Programming/Kotlin/Patterns.md",
-    "Programming/Kotlin/Coroutines.md",
-    "Programming/Kotlin/Covariance, contravariance, invariance.md",
-    "Programming/Kotlin/Moxy.md"
+    "Programming/Kotlin/Fragmentos.md",
+    "Untitled.md",
+    "Programming/Kotlin/Koltin high-level function.md"
   ]
 }
