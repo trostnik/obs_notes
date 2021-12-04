@@ -1,32 +1,29 @@
 {
   "main": {
-    "id": "9c5a7d1ff26784a2",
+    "id": "5ee2d269d5d4ca55",
     "type": "split",
     "children": [
       {
-        "id": "c827c566d9af28ad",
+        "id": "511affedcccfea96",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Programming/Kotlin/Fragment.md",
-            "mode": "source"
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "5fa0c3a42df69cbe",
+    "id": "5862fa21590a793b",
     "type": "split",
     "children": [
       {
-        "id": "02216a7f7c84e0ff",
+        "id": "620603088f623b8e",
         "type": "tabs",
         "children": [
           {
-            "id": "b65c6da0fe64c6a8",
+            "id": "1b7242ce288e4ac0",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -34,7 +31,7 @@
             }
           },
           {
-            "id": "e2044dc825e31db8",
+            "id": "d087497032a9edbb",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -52,23 +49,22 @@
       }
     ],
     "direction": "horizontal",
-    "width": 311
+    "width": 300
   },
   "right": {
-    "id": "3f46c6cc1f6f0a37",
+    "id": "2d479cab3058ab51",
     "type": "split",
     "children": [
       {
-        "id": "41e4261e606d98e7",
+        "id": "8f0273d7e2d38b9c",
         "type": "tabs",
         "children": [
           {
-            "id": "c747b6f0324fd3bd",
+            "id": "53fe65cd4d609bdc",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Programming/Kotlin/Fragment.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,17 +82,9 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "c827c566d9af28ad",
+  "active": "511affedcccfea96",
   "lastOpenFiles": [
-    "Programming/Kotlin/Fragment.md",
-    "Programming/Kotlin/Activity.md",
-    "Programming/Kotlin/Intents.md",
-    "Programming/Kotlin/Navigation Component.md",
-    "Untitled.md",
-    "Programming/Kotlin/Koltin high-level function.md",
-    "Programming/Kotlin/Architectural pattern.md",
-    "Programming/Kotlin/Patterns.md",
-    "Programming/Kotlin/Coroutines.md",
-    "Programming/Kotlin/Covariance, contravariance, invariance.md"
+    "Programming/Kotlin/Fragmentos.md",
+    "Programming/Kotlin/Fragment.md"
   ]
 }
