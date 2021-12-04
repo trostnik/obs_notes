@@ -12,3 +12,13 @@ If we have destination that is entered from multiple locations we need to define
 If we need to implement some flow logic, we can use nested subgraphs and include them in main graph
 NavController is placed in NavHostFragment(which we pass into FragmentContainerView).
 When navigating through screens we can popUp some other screens from the backStack using popUpTo and popUpToInclusive attributes that take in screenId parameter. We can save state of poppedUp destinations using popUpToSaveState and restoreSaveState attributes
+## Deep Links
+##### Explicit deep link 
+is a deep link that uses PendintIntent that is passed to the consumer and allows it to navigate to exact app location. To build such intent NavDeepLinkBuilder is used. When user navigate to destination using explicit intent the backstack of application gets cleared and startDestination and target destination is opened. When user pressed back he will be navigated to the default launch destination. By default NavDeepLinkBuilder uses launch Activity, but we can oveerride this, by using setComponentName method.
+##### Imlicit deep link
+is a deep link which allows user to navigate to your applications specific destination through URI, action and MIME types. To be able to use it we need to define \<deepLink\> attribute inside our destination in Navigation Graph and \<nav-graph\> attribute at the activity inside Manifest.  We can set flag Intent.FLAG_ACTIVITY_NEW_TASK  and navigation will behave like explicit deep linking(new task with cleared stack will be launced with target destination on top and default start destination), otherwise destination will be opened inside of the task of launching app. If we use standard launch mode on the activity deep links will be handled automatically, otherwise we need to call navController.handleDeepLink() inside onNewIntent() callback.
+##### Animations
+We can use  
+app:enterAnim="@anim/slide_in_right"  
+app:exitAnim="@anim/slide_out_left"  app:popEnterAnim="@anim/slide_in_left"  app:popExitAnim="@anim/slide_out_right" />
+attributes to define different animations

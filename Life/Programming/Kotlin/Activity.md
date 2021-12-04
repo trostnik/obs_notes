@@ -30,10 +30,26 @@ When configuratin change happens activity enters onPause(), onStop(), onDestroy(
 Configruration change happens on screen rotation, on multi-window switch, changing size of window, changing language, changing input device(keyboard).
 When the dialog or activity, which partially covers the screen opens up, then activity enters onPause() state. If new activity takes the whole screen and pevious activity is no longer visible to the user then previous activity enters onStop() state. If user presses the home button activity behaves like it was completely covered.
 Task - is a collection of activities that user interacts with.
-Launch modes:
+### Launch modes:
 standard: behaves normally - every activity is placed on top of backstack
 singleTop: if activity A on top of the stack and intent to activity A is happening again it is not created again but recalling and call onNewIntent()
 singleTask: Activity is launched in separate task and behaves like singleTop
-singleTask: Activity is launched in singleTask and every other activities are opened in different task
+singleInstance: Activity is launched in singleTask and every other activities are opened in different task
+Launch modes can be also passed to startActivity() and they will override those that written inside Manifest.
+
 ## Result Api
 Result api is used instead of startActivityForResult because former was not stable due to the fact that activity that called other activity for result could have been destroyed and won't get handled. Result api register listener at the start of the lifecycle, so it is guaranteed to work. To implement this we need to use registerActivityForResult and provide it with ActivityResultContract(which defines input type of intent, and type of received data) and ActivityResultCallback(that defines actions onReceiveResult). registerActivityForResult can be launched only when Activity is at state CREATED and further.
+
+## Task affinity
+taskAffinity is attribute that defines behaviour of activity, what activity prefers to belong to(which task). By default all activities prefer to stay in the same task, but it can be overriden, for example if we have more than one logical app inside our apk.
+
+## Clearing a back stack after time
+By default the back stack of task is cleared up to root activity after a long period of time. But we can override this by providing alwaysRetainTaskState,
+clearTaskOnLaunch and finishOnTaskLaunch attributes. First, when defined in root activity, keeps back stack for long period of time, second when defined in root activity, clear all back stack except root activity even if use leaves up just for a moment, third is like second but for a single activity, and to whole task.
+
+## Processe and Application Lifecycle
+Android applications are running inside Linux processes and application doesn't have control over lifetime of process. It is controlled by system, so system has a set of rules that it follows with controlling lifetime of processes. To decide which process should be killed when low on memory, Android has "importance hierarchy". 
+1. A foreground process(Activity onResume(), BroadcastReceiver onReceive(), Service onCreate(), onStart(), onDestroy()) - these processes will be killed only as last resort for freeing memory
+2. A visible procceses(Activity onPause(), Service.startForeground()) - still extremely important
+3. Service process(running Service.startService())
+4. Cached process(Activity onStop) - system is free to kill them at any time 

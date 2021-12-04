@@ -1,14 +1,17 @@
 {
   "main": {
-    "id": "13f0417d988027b9",
+    "id": "9c5a7d1ff26784a2",
     "type": "split",
     "children": [
       {
-        "id": "29ef1ff28a8c8800",
+        "id": "c827c566d9af28ad",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "Programming/Kotlin/Fragment.md",
+            "mode": "source"
+          }
         }
       }
     ],
@@ -65,6 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Programming/Kotlin/Fragment.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -82,17 +86,17 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "29ef1ff28a8c8800",
+  "active": "c827c566d9af28ad",
   "lastOpenFiles": [
+    "Programming/Kotlin/Fragment.md",
+    "Programming/Kotlin/Activity.md",
+    "Programming/Kotlin/Intents.md",
+    "Programming/Kotlin/Navigation Component.md",
     "Untitled.md",
     "Programming/Kotlin/Koltin high-level function.md",
-    "Programming/Kotlin/Navigation Component.md",
-    "Programming/Kotlin/Activity.md",
     "Programming/Kotlin/Architectural pattern.md",
     "Programming/Kotlin/Patterns.md",
     "Programming/Kotlin/Coroutines.md",
-    "Programming/Kotlin/Covariance, contravariance, invariance.md",
-    "Programming/Kotlin/Moxy.md",
-    "Programming/Kotlin/Compose.md"
+    "Programming/Kotlin/Covariance, contravariance, invariance.md"
   ]
 }

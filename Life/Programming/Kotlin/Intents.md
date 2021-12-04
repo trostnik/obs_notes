@@ -1,0 +1,2 @@
+## PendingIntent
+PendintIntent is an intent that can be passed to another application to allow  other application perform intent action with all our permissions and at the time other application defines. We can hand PendingIntent to system applications(Notifications) or applications that provide integration apis.
