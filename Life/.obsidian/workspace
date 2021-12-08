@@ -1,14 +1,17 @@
 {
   "main": {
-    "id": "5ee2d269d5d4ca55",
+    "id": "305cc78f03a28b96",
     "type": "split",
     "children": [
       {
-        "id": "511affedcccfea96",
+        "id": "0a6326b2df04c8d5",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "Programming/Android/Services.md",
+            "mode": "source"
+          }
         }
       }
     ],
@@ -65,6 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Programming/Android/Services.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -82,8 +86,14 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "511affedcccfea96",
+  "active": "0a6326b2df04c8d5",
   "lastOpenFiles": [
+    "Programming/Android/Services.md",
+    "Programming/Android/Moxy.md",
+    "Programming/Android/Fragment.md",
+    "Programming/Android/Activity.md",
+    "Programming/Android/Architectural pattern.md",
+    "Programming/Android/Intents.md",
     "Programming/Kotlin/Fragmentos.md",
     "Programming/Kotlin/Fragment.md"
   ]
