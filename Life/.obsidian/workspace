@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Programming/Android/Cicerone.md",
+            "file": "Programming/Android/Dependecy Injection.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Programming/Android/Cicerone.md",
+                "file": "Programming/Android/Dependecy Injection.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,15 +88,15 @@
   },
   "active": "0a6326b2df04c8d5",
   "lastOpenFiles": [
+    "Programming/Android/Dependecy Injection.md",
+    "Programming/Android/OkHttp.md",
+    "Programming/Android/Retrofit.md",
+    "Programming/Web/Apache.md",
+    "Programming/Untitled.md",
+    "Programming/Android/Services.md",
     "Programming/Android/Cicerone.md",
     "Programming/Android/Patterns.md",
     "Programming/Android/Architectural pattern.md",
-    "Programming/Android/Fragment.md",
-    "Programming/Android/Services.md",
-    "Programming/Android/Moxy.md",
-    "Programming/Android/Activity.md",
-    "Programming/Android/Intents.md",
-    "Programming/Kotlin/Fragmentos.md",
-    "Programming/Kotlin/Fragment.md"
+    "Programming/Android/Fragment.md"
   ]
 }

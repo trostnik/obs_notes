@@ -1,0 +1,1 @@
+Apache is a web server, meaning that it is used to display static websites. To be able to use other services like php and db etc. we need to connect them to apache when deployed.
