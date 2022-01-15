@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "0a6326b2df04c8d5",
+        "id": "bc7c20498d0ecdee",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Programming/Android/Content Provider.md",
+            "file": "Programming/Android/Dependecy Injection.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Programming/Android/Content Provider.md",
+                "file": "Programming/Android/Dependecy Injection.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -86,17 +86,17 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "0a6326b2df04c8d5",
+  "active": "bc7c20498d0ecdee",
   "lastOpenFiles": [
-    "Programming/Android/Content Provider.md",
-    "Programming/Android/Services.md",
-    "Programming/Android/Architectural pattern.md",
-    "Programming/Android/Coroutines.md",
     "Programming/Android/Dependecy Injection.md",
-    "Programming/Android/OkHttp.md",
+    "Pasted image 20220115133649.png",
+    "Pasted image 20220115133607.png",
     "Programming/Android/Retrofit.md",
-    "Programming/Web/Apache.md",
-    "Programming/Untitled.md",
-    "Programming/Android/Cicerone.md"
+    "Programming/Android/Services.md",
+    "Programming/Android/Intents.md",
+    "Programming/Android/OkHttp.md",
+    "Programming/Android/Content Provider.md",
+    "Programming/Android/Architectural pattern.md",
+    "Programming/Android/Testing.md"
   ]
 }
