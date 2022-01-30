@@ -13,3 +13,68 @@ Dagger 2 is a library which allows to implement dependency injection through ann
 	![[Pasted image 20220115133607.png]]
 	![[Pasted image 20220115133703.png]]
 	![[Pasted image 20220115133710.png]]
+
+# Hilt
+Hilt is a dependency injection library built on top of dagger which allows to avoid boilerplate code of constructing classes and it's dependencies by providing containers for every Android class and managin it's lifecycle automatically.
+
+@HiltAndroidApp - is an annotation that used for Application class and it's required for every application that uses Hilt. It triggers Hilt code generation.
+
+@AndroidEntryPoint - is an annotation that is used on clients that want to consume dependencies
+Hilt currently supports the following Android classes:
+	Application (by using @HiltAndroidApp)
+	ViewModel (by using @HiltViewModel)
+	Activity
+	Fragment
+	View
+	Service
+	BroadcastReceiver
+
+If you annotate an Android class with @AndroidEntryPoint, then you also must annotate Android classes that depend on it. For example, if you annotate a fragment, then you must also annotate any activities where you use that fragment.
+
+We can use modules but, unlike Dagger @Module annotation, in Hilt we need to use @InstallIn annotation and provide it with Android component.
+For multiple bindings(when you need to provide different implementations of the same type) @Qualifier is used:
+```kotlin
+@Qualifier  
+@Retention(AnnotationRetention.BINARY)  
+annotation class AuthInterceptorOkHttpClient  
+  
+@Qualifier  
+@Retention(AnnotationRetention.BINARY)  
+annotation class OtherInterceptorOkHttpClient
+```
+
+then you just annotate the field or parameter with annotation class name.
+
+Hilt provides some predefined qualifiers. For example, as you might need the Context class from either the application or the activity, Hilt provides the @ApplicationContext and @ActivityContext qualifiers.
+
+Hilt provides the following components:
+![[Pasted image 20220130141709.png]]
+ActivityRetainedComponent lives across configuration changes, so it is created at the first Activity#onCreate() and destroyed at the last Activity#onDestroy()
+ 
+The table below lists scope annotations for each generated component:
+![[Pasted image 20220130142136.png]]
+
+ If there is a need  to use Hilt in non-Android classes to get some dependencies, we need to define an interface that is annotated with @EntryPoint for each binding type that you want and include qualifiers. Then add @InstallIn to specify the component in which to install the entry point as follows:
+ 
+ ``` kotlin
+ class ExampleContentProvider : ContentProvider() {  
+	 @EntryPoint  
+	 @InstallIn(SingletonComponent::class)  interface ExampleContentProviderEntryPoint {  fun analyticsService(): AnalyticsService  }  ...  
+}
+```
+To access an entry point, use the appropriate static method from EntryPointAccessors. The parameter should be either the component instance or the @AndroidEntryPoint object that acts as the component holder. Make sure that the component you pass as a parameter and the EntryPointAccessors static method both match the Android class in the @InstallIn annotation on the @EntryPoint interface:
+```kotlin
+class ExampleContentProvider: ContentProvider() {
+    ...
+
+  override fun query(...): Cursor {
+    val appContext = context?.applicationContext ?: throw IllegalStateException()
+    val hiltEntryPoint =
+      EntryPointAccessors.fromApplication(appContext, ExampleContentProviderEntryPoint::class.java)
+
+    val analyticsService = hiltEntryPoint.analyticsService()
+    ...
+  }
+}```
+
+In this example, you must use the ApplicationContext to retrieve the entry point because the entry point is installed in SingletonComponent. If the binding that you wanted to retrieve were in the ActivityComponent, you would instead use the ActivityContext.

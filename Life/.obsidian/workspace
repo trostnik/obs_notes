@@ -7,10 +7,9 @@
         "id": "bc7c20498d0ecdee",
         "type": "leaf",
         "state": {
-          "type": "markdown",
+          "type": "image",
           "state": {
-            "file": "Programming/Android/Dependecy Injection.md",
-            "mode": "source"
+            "file": "Pasted image 20220130142136.png"
           }
         }
       }
@@ -68,7 +67,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Programming/Android/Dependecy Injection.md",
+                "file": "Pasted image 20220130142136.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,15 +87,15 @@
   },
   "active": "bc7c20498d0ecdee",
   "lastOpenFiles": [
-    "Programming/Android/Dependecy Injection.md",
+    "Pasted image 20220130142136.png",
     "Pasted image 20220115133649.png",
-    "Pasted image 20220115133607.png",
-    "Programming/Android/Retrofit.md",
-    "Programming/Android/Services.md",
-    "Programming/Android/Intents.md",
-    "Programming/Android/OkHttp.md",
+    "Pasted image 20220115133602.png",
+    "Programming/Android/Dependecy Injection.md",
+    "Programming/Android/Fragment.md",
+    "Pasted image 20220130141709.png",
     "Programming/Android/Content Provider.md",
+    "Programming/Android/Cicerone.md",
     "Programming/Android/Architectural pattern.md",
-    "Programming/Android/Testing.md"
+    "Pasted image 20220115133607.png"
   ]
 }
