@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Life/Programming/Android/MVI.md",
+            "file": "Life/Programming/Android/Dependecy Injection.md",
             "mode": "source",
             "source": false
           }
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/MVI.md",
+                "file": "Life/Programming/Android/Dependecy Injection.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +94,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/MVI.md",
+                "file": "Life/Programming/Android/Dependecy Injection.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +117,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/MVI.md"
+                "file": "Life/Programming/Android/Dependecy Injection.md"
               }
             }
           }
@@ -129,5 +129,8 @@
     "collapsed": true
   },
   "active": "c378ee6cbfbfa3d1",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "Life/Programming/Android/Kotlin lambda variable capture.md",
+    "Life/Programming/Android/MVI.md"
+  ]
 }
