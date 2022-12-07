@@ -4,16 +4,45 @@
     "type": "split",
     "children": [
       {
-        "id": "c378ee6cbfbfa3d1",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Life/Programming/Android/Services.md",
-            "mode": "source",
-            "source": false
+        "id": "6e628ebf0252a388",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c378ee6cbfbfa3d1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Life/Programming/Android/Services.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "e77ba2253aae3289",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.0.3"
+              }
+            }
+          },
+          {
+            "id": "ac462c7d14b3b1bb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Life/Programming/Learning Course.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        }
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -31,7 +60,9 @@
             "type": "leaf",
             "state": {
               "type": "file-explorer",
-              "state": {}
+              "state": {
+                "sortOrder": "alphabetical"
+              }
             }
           },
           {
@@ -77,7 +108,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/Services.md",
+                "file": "Life/Programming/Learning Course.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,7 +125,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/Services.md",
+                "file": "Life/Programming/Learning Course.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -117,7 +148,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/Services.md"
+                "file": "Life/Programming/Learning Course.md"
               }
             }
           }
@@ -128,7 +159,7 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "c378ee6cbfbfa3d1",
+  "active": "ac462c7d14b3b1bb",
   "lastOpenFiles": [
     "Life/Programming/Android/Dependecy Injection.md",
     "Life/Programming/Android/Kotlin lambda variable capture.md",
