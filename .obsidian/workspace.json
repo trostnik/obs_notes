@@ -40,9 +40,33 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "21274de2cd43effe",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "3D.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "4eb9e3fe80910fd5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Life/Programming/Android/HashMap.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -108,7 +132,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Learning Course.md",
+                "file": "Life/Programming/Android/HashMap.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -125,7 +149,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Learning Course.md",
+                "file": "Life/Programming/Android/HashMap.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -148,7 +172,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Learning Course.md"
+                "file": "Life/Programming/Android/HashMap.md"
               }
             }
           }
@@ -159,8 +183,10 @@
     "width": 300,
     "collapsed": true
   },
-  "active": "ac462c7d14b3b1bb",
+  "active": "4eb9e3fe80910fd5",
   "lastOpenFiles": [
+    "Life/Programming/Android/Services.md",
+    "Life/Programming/Learning Course.md",
     "Life/Programming/Android/Dependecy Injection.md",
     "Life/Programming/Android/Kotlin lambda variable capture.md",
     "Life/Programming/Android/MVI.md"
