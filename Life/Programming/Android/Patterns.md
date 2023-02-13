@@ -22,3 +22,7 @@ Here's how it could work in practice:
     
 
 By using the Prototype Design Pattern, the client code can create new fields quickly and efficiently by cloning existing prototypes, rather than creating each field from scratch. This can save time and reduce the complexity of the code.
+## Adapter
+Adapter pattern is used for connecting classes that cannot be connected through inheritance. This can be used, when we have external library and it uses format that we don't like and we don't want to change(or don't have posibility to) the format. So we can create class that extends our client format and contains service pointer and then we just convert our format to service format and use it's functionality.
+Another reason to use adapter is when we have interface that is used in out program and we have outer class that fits our needs, but we can't modify it. So we create another class that implements our interface and extends outer class (or contains the instance of it) and inside interface methods we just delegate logic to outer class methods.
+A real-world use case for the Adapter design pattern is in the context of software integration. Imagine you have a legacy system that provides data in a specific format and a new system that needs to consume that data. However, the new system cannot understand the format of the data provided by the legacy system. To resolve this issue, you can create an Adapter class that converts the data from the legacy system into a format that the new system can understand.
