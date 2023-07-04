@@ -1,0 +1,2 @@
+Time complexity - amount of time which is spent during the run of the alghorithm based on the input size
+Space complexity - amount of memory allocated, function calls, variables created based on the input size

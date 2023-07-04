@@ -71,7 +71,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Life/Programming/Android/Patterns.md",
+                "file": "Life/Programming/Android/Gradle.md",
                 "mode": "source",
                 "source": false
               }
@@ -123,6 +123,14 @@
               "type": "starred",
               "state": {}
             }
+          },
+          {
+            "id": "e0c82a6256ed82cc",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
           }
         ]
       }
@@ -144,7 +152,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/Patterns.md",
+                "file": "Life/Programming/Android/Gradle.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -161,7 +169,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/Patterns.md",
+                "file": "Life/Programming/Android/Gradle.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -184,7 +192,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/Patterns.md"
+                "file": "Life/Programming/Android/Gradle.md"
               }
             }
           }
@@ -207,6 +215,8 @@
   },
   "active": "99bdc4e4e4678bf6",
   "lastOpenFiles": [
+    "Life/Programming/Android/Data structures.md",
+    "Life/Programming/Android/Patterns.md",
     "Life/Programming/Android/Kotlin constructor.md",
     "Life/Programming/Android/Kotlin companion.md",
     "Life/Programming/Android/Services.md",
