@@ -22,7 +22,8 @@ Each Fragment has it's own lifecycle. It implements LifecycleOwner. Also each Fr
 ![fragment lifecycle states and their relation both the fragment's
 lifecycle callbacks and the fragment's view lifecycle](https://developer.android.com/images/guide/fragments/fragment-view-lifecycle.png)
 Fragment CREATED. The place where savedInstanceState is restored. The view is not initialized in this state.
-Fragment CREATED and View INITIALIZED. This is the appropriate place to set up the initial state of your view, to start observing LiveData instances whose callbacks update the fragment's view, and to set up adapters on any RecyclerView or ViewPager2 instances in your fragment's view.
+Fragment CREATED and View INITIALIZED. This is the appropriate place to set up the initial state of your view, to start observing LiveData instances whose callbacks update the fragment's view, and to set up adapters on any RecyclerView or ViewPager2 instances in your fragment's view. Here onCreateView() and onViewCreated() are called. We can override onCreateView() to set view programmatically. Inside onViewCreated() the view is already associated with the fragment.
+Fragment CREATED and View CREATED. Here onViewStateRestore() is called.
 Fragment and View STARTED. The view of fragment is available.
 Fragment and View RESUMED. The fragment is fully available.
 Fragment CREATED and View DESTROYED. The fragment's view has reached the end of its lifecycle and getViewLifecycleOwnerLiveData() returns a null value. At this point, all references to the fragment's view should be removed, allowing the fragment's view to be garbage collected.
@@ -32,11 +33,11 @@ There are different data on display which state saving needs to be handled.
 Variables, SavedState, ViewState, NonConfig.
 Variables are saved through SavedState. SavedState is a serializable portion of data that can be put inside Bundle onSaveInstanceState and retrieved  in your fragment's onCreate(Bundle), (LayoutInflater, ViewGroup, Bundle), and onViewCreated(View, Bundle) methods.
 View is responsible for saving it's own View state, we don't need to implement anything, we just need to define view id.
-NonConfig data is a data that received from third party like from network or from db. This kind of data needs to be stored inside ViewModel which handles saving state.
+NonConfig data is a data that received from third party like from network or from db. This kind of data needs to be stored inside ViewModel which handles saving state. We can also save this kind of data after process death using savedStateHandle api
 
 ## Comunicating between fragments
 There are two ways of comunicating between fragments: 
 1. Through shared ViewModel
 2. Through Fragment Result Api
-When comunicating through shared ViewModel we need to use viewModel that is inside mutual scope. So when we need to comunicate between host Activity and fragment we define viewModel in activity and retrieve it inside fragment by using activity scope. When we need to comunicate between Fragments we can use ViewModel in activity scope. 
+When comunicating through shared ViewModel we need to use viewModel that is inside mutual scope. So when we need to comunicate between host Activity and fragment we define viewModel in activity and retrieve it inside fragment by using activity scope. When we need to comunicate between Fragments we can use ViewModel in activity scope. Scope defined by context passed to ViewModelStoreProvider.
 When comunicating throuh Fragment Result Api wee need to define FragmentResultListener and setFragmentResult methods of FragmentManager. When we need to pass data between parent and child fragments, parent fragment needs to use childFragmentManager.
