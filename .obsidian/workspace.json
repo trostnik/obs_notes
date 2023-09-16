@@ -88,9 +88,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "a7f7bb7b6c32f369",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Life/Programming/Android/Fragment.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 6
+        "currentTab": 7
       }
     ],
     "direction": "vertical"
@@ -225,7 +237,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "cf0ee4365c85a2af",
+  "active": "a7f7bb7b6c32f369",
   "lastOpenFiles": [
     "Life/Programming/Android/Activity.md",
     "Life/Programming/Android/Data structures.md",

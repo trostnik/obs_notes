@@ -11,10 +11,14 @@ To add Fragment we need to use add(), providing it with id of container and clas
 To remove Fragment we need to use remove(), providing it with Fragment, found using findFragmentById() or findFragmentByTag()
 To replace Fragment we need to use replace, providing it with id of container and class name of Fragment
 It is recommended to use class name instead of instance to allow saving state work properly
-commit() is operation that  commits all transactions. It is asynchronous, meaning that it will schedule all transaction to the time, main thread is ready. To perform all transactions immediately we can use commitNow(), but transactions then are not allowed to be added to backStack.
+commit() is operation that  commits all transactions. It is asynchronous, meaning that it will schedule all transaction to the time, main thread is ready. If we would do it synchronously, then it would freeze the UI or race condition would occur. Doing it asynchronously means it will schedule it to run, and run it using all async mechanisms(like time slicing).  To perform all transactions immediately we can use commitNow(), but transactions then are not allowed to be added to backStack.
 We can limit lifecycle of added fragment using setMaxLifecycle() to allow fragment only reach provided lifecycle state, and if it goes further it will be forced to the provided lifecycle state
 show() and hide() methods are FragmentTransaction method which make view of fragment visible or invisible. They are use when you want visibility changes to be associated with transactions and added to backStack
 detach() method detaches the view, which means it gets destroyed and Fragment goes to STOP state. attach() method recreates the view, attached and displayed. If we call attach and detach methods in the same transaction on the same Fragment it will get efficiently handled and not destroyed. To attach and reatach fragment immediately we need to use different transactions separeted by executePendingTransactions()
+
+## Support multiple back stacks
+
+In some cases, your app might need to support multiple back stacks. A common example is if your app uses a bottom navigation bar. `FragmentManager` lets you support multiple back stacks with the `saveBackStack()` and `restoreBackStack()` methods. These methods let you swap between back stacks by saving one back stack and restoring a different one.
 
 ## Fragment Lifecycle
 Each Fragment has it's own lifecycle. It implements LifecycleOwner. Also each Fragment has control over lifecycle of attached view. FragmentManager handles the fragment lifecycle and process of attaching and detaching to host. Fragment has onAttach() and onDetach() methods that are executed before and after all lifecycle events respectively.
