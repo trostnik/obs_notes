@@ -4,105 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "6e628ebf0252a388",
+        "id": "7fe288fe44738d3d",
         "type": "tabs",
         "children": [
           {
-            "id": "c378ee6cbfbfa3d1",
+            "id": "3de7c062978c2b5e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Life/Programming/Android/Services.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "e77ba2253aae3289",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.0.3"
-              }
-            }
-          },
-          {
-            "id": "ac462c7d14b3b1bb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Life/Programming/Learning Course.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "21274de2cd43effe",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "3D.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "4eb9e3fe80910fd5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Life/Programming/Android/HashMap.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "99bdc4e4e4678bf6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Life/Programming/Android/Gradle.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "cf0ee4365c85a2af",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Life/Programming/Android/Fragment.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "a7f7bb7b6c32f369",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Life/Programming/Android/Fragment.md",
+                "file": "Life/Programming/Android/Custom View.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 7
+        ]
       }
     ],
     "direction": "vertical"
@@ -176,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/Fragment.md",
+                "file": "Life/Programming/Android/Custom View.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -193,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/Fragment.md",
+                "file": "Life/Programming/Android/Custom View.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -216,7 +133,17 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/Fragment.md"
+                "file": "Life/Programming/Android/Custom View.md"
+              }
+            }
+          },
+          {
+            "id": "c048f670ef76dd78",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency"
               }
             }
           }
@@ -237,8 +164,20 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a7f7bb7b6c32f369",
+  "active": "3de7c062978c2b5e",
   "lastOpenFiles": [
+    "Pasted image 20230917143133.png",
+    "Pasted image 20230917142811.png",
+    "Pasted image 20230917142733.png",
+    "Pasted image 20230917142659.png",
+    "Pasted image 20230917142006.png",
+    "Pasted image 20230917141831.png",
+    "Pasted image 20230917141732.png",
+    "Pasted image 20230917141511.png",
+    "Pasted image 20230917141453.png",
+    "Pasted image 20230917140847.png",
+    "Pasted image 20230917125655.png",
+    "Life/Programming/Android/Custom View.md",
     "Life/Programming/Android/Activity.md",
     "Life/Programming/Android/Data structures.md",
     "Life/Programming/Android/Patterns.md",
