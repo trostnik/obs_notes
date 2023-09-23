@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Life/Programming/Android/Testing.md",
+                "file": "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/Testing.md",
+                "file": "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/Testing.md",
+                "file": "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/Testing.md"
+                "file": "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md"
               }
             }
           },
@@ -166,6 +166,11 @@
   },
   "active": "3de7c062978c2b5e",
   "lastOpenFiles": [
+    "Pasted image 20230923200646.png",
+    "Pasted image 20230923093135.png",
+    "Pasted image 20230923093134.png",
+    "Life/Programming/Android/Testing.md",
+    "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
     "Life/Programming/Android/Services.md",
     "Life/Programming/Android/Covariance, contravariance, invariance.md",
     "Life/Programming/Android/Content Provider.md",
@@ -178,8 +183,6 @@
     "Pasted image 20230917142006.png",
     "Pasted image 20230917141831.png",
     "Pasted image 20230917141732.png",
-    "Pasted image 20230917141511.png",
-    "Pasted image 20230917141453.png",
     "Life/Programming/Android/Activity.md",
     "Life/Programming/Android/Data structures.md",
     "Life/Programming/Android/Patterns.md",
