@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
+                "file": "Life/Programming/Android/Kotlin Coroutines.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "37932c5ddc2cf2cf",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Life/Programming/Android/Kotlin Coroutines.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -93,7 +106,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
+                "file": "Life/Programming/Android/Kotlin Coroutines.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +123,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
+                "file": "Life/Programming/Android/Kotlin Coroutines.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +146,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md"
+                "file": "Life/Programming/Android/Kotlin Coroutines.md"
               }
             }
           },
@@ -164,13 +177,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3de7c062978c2b5e",
+  "active": "37932c5ddc2cf2cf",
   "lastOpenFiles": [
+    "Life/Programming/Android/Coroutines.md",
+    "Life/Programming/Android/Kotlin Coroutines.md",
+    "Life/Programming/Android/Untitled.md",
+    "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
+    "Pasted image 20230924085209.png",
+    "Pasted image 20230924085046.png",
     "Pasted image 20230923200646.png",
     "Pasted image 20230923093135.png",
     "Pasted image 20230923093134.png",
     "Life/Programming/Android/Testing.md",
-    "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
     "Life/Programming/Android/Services.md",
     "Life/Programming/Android/Covariance, contravariance, invariance.md",
     "Life/Programming/Android/Content Provider.md",
@@ -180,9 +198,6 @@
     "Pasted image 20230917142811.png",
     "Pasted image 20230917142733.png",
     "Pasted image 20230917142659.png",
-    "Pasted image 20230917142006.png",
-    "Pasted image 20230917141831.png",
-    "Pasted image 20230917141732.png",
     "Life/Programming/Android/Activity.md",
     "Life/Programming/Android/Data structures.md",
     "Life/Programming/Android/Patterns.md",

@@ -416,7 +416,174 @@ System.out.println("future done? " + future.isDone());
 System.out.print("result: " + result);
 ```
 ## Mutext and Semaphore
+In a multithreaded application, two or more threads may need to access a shared resource at the same time, resulting in unexpected behavior. Examples of such shared resources are data-structures, input-output devices, files, and network connections.
 
+We call this scenario a race condition. And, the part of the program which accesses the shared resource is known as the critical section. So, to avoid a race condition, we need to synchronize access to the critical section.
 
+A mutex (or mutual exclusion) is the simplest type of synchronizer – it ensures that only one thread can execute the critical section of a computer program at a time.
 
+To access a critical section, a thread acquires the mutex, then accesses the critical section, and finally releases the mutex. In the meantime, all other threads block till the mutex releases. As soon as a thread exits the critical section, another thread can enter the critical section.
+
+**Synchronized** keyword,  is the simplest way to implement a mutex in Java
+
+The _[ReentrantLock](https://www.baeldung.com/java-concurrent-locks)_ class was introduced in Java 1.5. It provides more flexibility and control than the _synchronized_ keyword approach.
+
+Let’s see how we can use the _ReentrantLock_ to achieve mutual exclusion:
+
+```java
+public class SequenceGeneratorUsingReentrantLock extends SequenceGenerator {
+    
+    private ReentrantLock mutex = new ReentrantLock();
+
+    @Override
+    public int getNextSequence() {
+        try {
+            mutex.lock();
+            return super.getNextSequence();
+        } finally {
+            mutex.unlock();
+        }
+    }
+}
+```
+Like _ReentrantLock_, the _[Semaphore](https://www.baeldung.com/java-semaphore)_ class was also introduced in Java 1.5.
+
+While in case of a mutex only one thread can access a critical section, _Semaphore_ allows **a fixed number of threads to access a critical section**. Therefore, **we can also implement a mutex by setting the number of allowed threads in a _Semaphore_ to one**.
+
+Let’s now create another thread-safe version of _SequenceGenerator_ using _Semaphore_:
+
+```java
+public class SequenceGeneratorUsingSemaphore extends SequenceGenerator {
+    
+    private Semaphore mutex = new Semaphore(1);
+
+    @Override
+    public int getNextSequence() {
+        try {
+            mutex.acquire();
+            return super.getNextSequence();
+        } catch (InterruptedException e) {
+            // exception handling code
+        } finally {
+            mutex.release();
+        }
+    }
+}
+```
+So far, we’ve seen the options to implement mutex using features provided by Java.
+
+However, the _Monitor_ class of Google’s Guava library is a better alternative to the _ReentrantLock_ class. As per its [documentation](https://guava.dev/releases/19.0/api/docs/com/google/common/util/concurrent/Monitor.html), code using _Monitor_ is more readable and less error-prone than the code using _ReentrantLock_.
+
+First, we’ll add the Maven dependency for [Guava](https://mvnrepository.com/artifact/com.google.guava/guava):
+
+```xml
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.0.1-jre</version>
+</dependency>
+```
+
+Now, we’ll write another subclass of _SequenceGenerator_ using the _Monitor_ class:
+
+```java
+public class SequenceGeneratorUsingMonitor extends SequenceGenerator {
+    
+    private Monitor mutex = new Monitor();
+
+    @Override
+    public int getNextSequence() {
+        mutex.enter();
+        try {
+            return super.getNextSequence();
+        } finally {
+            mutex.leave();
+        }
+    }
+
+}
+```
+**Semaphore** is a synchronization primitive that is often used to control access to a shared resource among multiple threads. A semaphore maintains a set of permits, where each permit represents permission for one thread to access the resource. Semaphores are typically used to manage limited resources or to control the number of concurrent threads that can access a resource. Example of using Semaphore:
+**Database Connection Pooling**: In many database-driven applications, you need to manage a limited number of available database connections. Creating a new database connection for every database operation can be inefficient and resource-intensive. Instead, you can use a connection pool.
+
+In a database connection pool:
+
+- A fixed number of database connections are created and made available in the pool.
+- When a thread needs to perform a database operation, it requests a connection from the pool.
+- The pool ensures that only a limited number of threads can access the database connections simultaneously.
+- If all connections are in use, additional threads requesting a connection have to wait until a connection becomes available (limiting the number of concurrent database connections).
+**Limiting Concurrent API Calls in a Weather App**: Imagine you're developing a weather application that retrieves weather data from a remote server. To ensure efficient use of network resources and prevent overloading the server, you can use a semaphore to limit the number of concurrent API calls made by your app.
+
+Here's how this use case would work:
+
+1. **API Request Limitation**: Weather data may be fetched from a third-party API, which has a rate limit on the number of requests your app can make in a given time frame. To comply with this rate limit and avoid penalties, you want to ensure that your app doesn't send too many concurrent requests.
+    
+2. **User Experience**: You also want to provide a smooth user experience. Limiting concurrent API calls ensures that the app doesn't make a large number of simultaneous requests, which could lead to slow responses and poor user experience.
+    
+3. **Resource Efficiency**: Controlling the number of concurrent API calls helps you manage network and server resources efficiently. It prevents overloading the server and reduces the risk of network congestion.
 ## DeadLock and LiveLock
+Deadlock describes a situation where two or more threads are blocked forever, waiting for each other. Deadlock occurs when multiple threads need the same locks but obtain them in different order. A Java multithreaded program may suffer from the deadlock condition because the **synchronized** keyword causes the executing thread to block while waiting for the lock, or monitor, associated with the specified object. Here is an example.
+
+Example
+```java
+public class TestThread {
+   public static Object Lock1 = new Object();
+   public static Object Lock2 = new Object();
+   
+   public static void main(String args[]) {
+      ThreadDemo1 T1 = new ThreadDemo1();
+      ThreadDemo2 T2 = new ThreadDemo2();
+      T1.start();
+      T2.start();
+   }
+   
+   private static class ThreadDemo1 extends Thread {
+   
+      public void run() {
+      
+         synchronized (Lock1) {
+            System.out.println("Thread 1: Holding lock 1...");
+
+            try {
+               Thread.sleep(10);
+            } catch (InterruptedException e) {}
+            System.out.println("Thread 1: Waiting for lock 2...");
+
+            synchronized (Lock2) {
+               System.out.println("Thread 1: Holding lock 1 & 2...");
+            }
+         }
+      }
+   }
+
+   private static class ThreadDemo2 extends Thread {
+   
+      public void run() {
+      
+         synchronized (Lock2) {
+            System.out.println("Thread 2: Holding lock 2...");
+            
+            try {
+               Thread.sleep(10);
+            } catch (InterruptedException e) {}
+            System.out.println("Thread 2: Waiting for lock 1...");
+            
+            synchronized (Lock1) {
+               System.out.println("Thread 2: Holding lock 1 & 2...");
+            }
+         }
+      }
+   } 
+}
+```
+**Starvation and Livelock**
+Starvation and livelock are much less common a problem than deadlock, but are still problems that every designer of concurrent software is likely to encounter.
+
+**Starvation**
+Starvation describes a situation where a thread is unable to gain regular access to shared resources and is unable to make progress. This happens when shared resources are made unavailable for long periods by "greedy" threads. For example, suppose an object provides a synchronized method that often takes a long time to return. If one thread invokes this method frequently, other threads that also need frequent synchronized access to the same object will often be blocked.
+![[Pasted image 20230924085209.png]]
+
+
+**Livelock**
+A thread often acts in response to the action of another thread. If the other thread's action is also a response to the action of another thread, then livelock may result. As with deadlock, livelocked threads are unable to make further progress. However, the threads are not blocked — they are simply too busy responding to each other to resume work. This is comparable to two people attempting to pass each other in a corridor: Alphonse moves to his left to let Gaston pass, while Gaston moves to his right to let Alphonse pass. Seeing that they are still blocking each other, Alphone moves to his right, while Gaston moves to his left. They're still blocking each other, so...
+![[Pasted image 20230924085046.png]]
