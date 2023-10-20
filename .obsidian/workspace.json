@@ -13,26 +13,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Life/Programming/Android/Kotlin Coroutines.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "37932c5ddc2cf2cf",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Life/Programming/Android/Kotlin Coroutines.md",
+                "file": "Life/Programming/Android/Services.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -106,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/Kotlin Coroutines.md",
+                "file": "Life/Programming/Android/Services.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/Kotlin Coroutines.md",
+                "file": "Life/Programming/Android/Services.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/Kotlin Coroutines.md"
+                "file": "Life/Programming/Android/Services.md"
               }
             }
           },
@@ -177,12 +164,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "37932c5ddc2cf2cf",
+  "active": "3de7c062978c2b5e",
   "lastOpenFiles": [
-    "Life/Programming/Android/Coroutines.md",
     "Life/Programming/Android/Kotlin Coroutines.md",
-    "Life/Programming/Android/Untitled.md",
     "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
+    "Pasted image 20230924085209 — копия.png",
+    "Life/Programming/Android/Coroutines.md",
+    "Life/Programming/Android/Untitled.md",
     "Pasted image 20230924085209.png",
     "Pasted image 20230924085046.png",
     "Pasted image 20230923200646.png",
@@ -197,7 +185,6 @@
     "Pasted image 20230917143133.png",
     "Pasted image 20230917142811.png",
     "Pasted image 20230917142733.png",
-    "Pasted image 20230917142659.png",
     "Life/Programming/Android/Activity.md",
     "Life/Programming/Android/Data structures.md",
     "Life/Programming/Android/Patterns.md",

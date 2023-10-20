@@ -424,3 +424,189 @@ fun main() = runBlocking<Unit> {
     flow.collect { value -> println(value) } 
 }
 ```
+## Flow cancellation basics﻿
+Flows adhere to the general cooperative cancellation of coroutines. As usual, flow collection can be cancelled when the flow is suspended in a cancellable suspending function (like delay). The following example shows how the flow gets cancelled on a timeout when running in a withTimeoutOrNull block and stops executing its code:
+
+          
+``` kotlin
+fun simple(): Flow<Int> = flow { 
+    for (i in 1..3) {
+        delay(100)          
+        println("Emitting $i")
+        emit(i)
+    }
+}
+​
+fun main() = runBlocking<Unit> {
+    withTimeoutOrNull(250) { // Timeout after 250ms 
+        simple().collect { value -> println(value) } 
+    }
+    println("Done")
+}
+```
+## Intermediate flow operators﻿
+Flows can be transformed using operators, in the same way as you would transform collections and sequences. Intermediate operators are applied to an upstream flow and return a downstream flow. These operators are cold, just like flows are. A call to such an operator is not a suspending function itself. It works quickly, returning the definition of a new transformed flow.
+
+The basic operators have familiar names like map and filter. An important difference of these operators from sequences is that blocks of code inside these operators can call suspending functions.
+
+For example, a flow of incoming requests can be mapped to its results with a map operator, even when performing a request is a long-running operation that is implemented by a suspending function:
+
+          
+```kotlin
+suspend fun performRequest(request: Int): String {
+    delay(1000) // imitate long-running asynchronous work
+    return "response $request"
+}
+​
+fun main() = runBlocking<Unit> {
+    (1..3).asFlow() // a flow of requests
+        .map { request -> performRequest(request) }
+        .collect { response -> println(response) }
+}
+```
+Terminal flow operators﻿
+Terminal operators on flows are suspending functions that start a collection of the flow. The collect operator is the most basic one, but there are other terminal operators, which can make it easier:
+
+Conversion to various collections like toList and toSet.
+
+Operators to get the first value and to ensure that a flow emits a single value.
+
+Reducing a flow to a value with reduce and fold.
+
+For example:
+
+​
+```kotlin
+val sum = (1..5).asFlow()
+    .map { it * it } // squares of numbers from 1 to 5                           
+    .reduce { a, b -> a + b } // sum them (terminal operator)
+println(sum)
+```
+
+## Flows are sequential﻿
+Each individual collection of a flow is performed sequentially unless special operators that operate on multiple flows are used. The collection works directly in the coroutine that calls a terminal operator. No new coroutines are launched by default. Each emitted value is processed by all the intermediate operators from upstream to downstream and is then delivered to the terminal operator after.
+
+See the following example that filters the even integers and maps them to strings:
+
+​
+```kotlin
+(1..5).asFlow()
+	.filter {
+		println("Filter $it")
+		it % 2 == 0              
+	}              
+	.map { 
+		println("Map $it")
+		"string $it"
+	}.collect { 
+		println("Collect $it")
+	}    
+```
+
+Producing:
+
+Filter 1
+Filter 2
+Map 2
+Collect string 2
+Filter 3
+Filter 4
+Map 4
+Collect string 4
+Filter 5
+
+## Flow context﻿
+Collection of a flow always happens in the context of the calling coroutine. For example, if there is a simple flow, then the following code runs in the context specified by the author of this code, regardless of the implementation details of the simple flow:
+
+``` kotlin
+withContext(context) {
+    simple().collect { value ->
+        println(value) // run in the specified context
+    }
+}
+```
+This property of a flow is called context preservation.
+
+The correct way to change the context of a flow is shown in the example below, which also prints the names of the corresponding threads to show how it all works:
+
+```kotlin
+fun simple(): Flow<Int> = flow {
+    for (i in 1..3) {
+        Thread.sleep(100) // pretend we are computing it in CPU-consuming way
+        log("Emitting $i")
+        emit(i) // emit next value
+    }
+}.flowOn(Dispatchers.Default) // RIGHT way to change context for CPU-consuming code in flow builder
+​
+fun main() = runBlocking<Unit> {
+    simple().collect { value ->
+        log("Collected $value") 
+    } 
+}            
+```
+
+Notice how flow {  } works in the background thread, while collection happens in the main thread:
+
+Another thing to observe here is that the flowOn operator has changed the default sequential nature of the flow. Now collection happens in one coroutine ("coroutine#1") and emission happens in another coroutine ("coroutine#2") that is running in another thread concurrently with the collecting coroutine. The flowOn operator creates another coroutine for an upstream flow when it has to change the CoroutineDispatcher in its context.
+## Exception catching in flows﻿
+But how can code of the emitter encapsulate its exception handling behavior?
+
+Flows must be transparent to exceptions and it is a violation of the exception transparency to emit values in the flow { } builder from inside of a try/catch block. This guarantees that a collector throwing an exception can always catch it using try/catch as in the previous example.
+
+The emitter can use a catch operator that preserves this exception transparency and allows encapsulation of its exception handling. The body of the catch operator can analyze an exception and react to it in different ways depending on which exception was caught:
+
+Exceptions can be rethrown using throw.
+
+Exceptions can be turned into emission of values using emit from the body of catch.
+
+Exceptions can be ignored, logged, or processed by some other code.
+
+For example, let us emit the text on catching an exception:
+
+```kotlin
+simple()
+    .catch { e -> emit("Caught $e") } // emit on exception
+    .collect { value -> println(value) }
+```
+
+## MutableStateFlow
+MutableStateFlow is a flow (that means we can perform any flow operators on it) which is used instead of LiveData. It contains value and can be observed on Fragment for example using lifecycleScope.  Unlike a _cold_ flow built using the `flow` builder, a `StateFlow` is _hot_: collecting from the flow doesn't trigger any producer code. A `StateFlow` is always active and in memory, and it becomes eligible for garbage collection only when there are no other references to it from a garbage collection root.
+
+```kotlin
+//ViewModel
+private val stateFlow = MutableStateFlow("Hello world!")
+
+fun triggerStateFlow() {
+	stateFlow.value = "StateFlow works"
+}
+
+//Fragment
+
+lifecycleScope.launchWhenStarted {
+	viewModel.stateFlow.collectLatest {
+			binding.tvStateFlow.text = it
+	}
+}
+```
+
+## MutableSharedFlow
+
+MutableSharedFlow is a flow which doesn't contain value and so is used to observe one-time events (like showing snackbars or toasts.
+
+```kotlin
+//ViewModel
+private val sharedFlow = MutableSharedFlow()
+
+fun triggerSharedFlow() {
+	sharedFlow.value = "SharedFlow works"
+}
+
+//Fragment
+
+lifecycleScope.launchWhenStarted {
+	viewModel.stateFlow.collectLatest {
+			Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+	}
+}
+
+```
