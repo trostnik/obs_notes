@@ -490,3 +490,229 @@ class MyAppState(
 ) { /* ... */ }
 
 ```
+
+### Where to hoist state
+UI logic - logic that changes UI based on some data or user actions (Changing button visibility depending on user input)
+Business logic - your application main functionality logic (Sending network request to publish new post)
+
+When dealing with UI logic you have to hoist state to the lowest common ancestor of all Composables that read or write data from the state. For example if 2 Composables on the different hierarchy level can change the state, the state should be hoisted above the upper level Composable.
+```kotlin
+@Composable
+private fun ConversationScreen(/*...*/) {
+    val scope = rememberCoroutineScope()
+
+    val lazyListState = rememberLazyListState() // State hoisted to the ConversationScreen
+
+    MessagesList(messages, lazyListState) // Reuse same state in MessageList
+
+    UserInput(
+        onMessageSent = { // Apply UI logic to lazyListState
+            scope.launch {
+                lazyListState.scrollToItem(0)
+            }
+        },
+    )
+}
+
+@Composable
+private fun MessagesList(
+    messages: List<Message>,
+    lazyListState: LazyListState = rememberLazyListState() // LazyListState has a default value
+) {
+
+    LazyColumn(
+        state = lazyListState // Pass hoisted state to LazyColumn
+    ) {
+        items(messages, key = { message -> message.id }) { item ->
+            Message(/*...*/)
+        }
+    }
+
+    val scope = rememberCoroutineScope()
+
+    JumpToBottom(onClicked = {
+        scope.launch {
+            lazyListState.scrollToItem(0) // UI logic being applied to lazyListState
+        }
+    })
+}
+
+```
+
+When the UI logic of Composable starts to get more complicated you can use plain StateHolder class to delegate state tracking and manipulating by providing access functions.
+```kotlin
+@Stable
+class LazyListState constructor(
+    firstVisibleItemIndex: Int = 0,
+    firstVisibleItemScrollOffset: Int = 0
+) : ScrollableState {
+    /**
+     *   The holder class for the current scroll position.
+     */
+    private val scrollPosition = LazyListScrollPosition(
+        firstVisibleItemIndex, firstVisibleItemScrollOffset
+    )
+
+    suspend fun scrollToItem(/*...*/) { /*...*/ }
+
+    override suspend fun scroll() { /*...*/ }
+
+    suspend fun animateScrollToItem() { /*...*/ }
+}
+```
+
+When you are developing business logic, the state holder should be out of the Composition. Business state holder perform following tasks:
+- Provide methods to interact with business functionality
+- Prepare business layer data for displaying on UI
+For these cases ViewModel is the best fit.
+ViewModel should be hoisted on the Screen-level composable and shouldn't be provided down the hierarchy:
+```kotlin
+@Composable
+private fun ConversationScreen(
+    conversationViewModel: ConversationViewModel = viewModel()
+) {
+
+    val messages by conversationViewModel.messages.collectAsStateWithLifecycle()
+
+    ConversationScreen(
+        messages = messages,
+        onSendMessage = { message: Message -> conversationViewModel.sendMessage(message) }
+    )
+}
+
+@Composable
+private fun ConversationScreen(
+    messages: List<Message>,
+    onSendMessage: (Message) -> Unit
+) {
+
+    MessagesList(messages, onSendMessage)
+    /* ... */
+}
+```
+Composables should consume ViewModel's view state.
+Preferable way to pass parameters through several nested composable functions is "Property drilling". A typical example of where property drilling can appear in Compose is when you inject the screen level state holder at the top level and pass down state and events to children composables. This might additionally generate an overload of composable functions signatures.
+It can generate function parameters overload, but it is prefered over wrapping inside state class because it allows to make Composable's responsibility more visible.
+
+When the state of UI element is need to be written or read by business logic, we can hoist it to screen level. For example, if text, inputed by user is need for making some kind of request to the network as he types.
+```kotlin
+class ConversationViewModel(/*...*/) : ViewModel() {
+
+    // Hoisted state
+    var inputMessage by mutableStateOf("")
+        private set
+
+    val suggestions: StateFlow<List<Suggestion>> =
+        snapshotFlow { inputMessage }
+            .filter { hasSocialHandleHint(it) }
+            .mapLatest { getHandle(it) }
+            .mapLatest { repository.getSuggestions(it) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = emptyList()
+            )
+
+    fun updateInput(newInput: String) {
+        inputMessage = newInput
+    }
+}
+```
+Calling some suspend functions exposed from Compose UI element state that trigger animations throw exceptions if called from a `CoroutineScope` that's not scoped to the Composition. For example, [`LazyListState.animateScrollTo()`](https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/LazyListState#animateScrollToItem(kotlin.Int,kotlin.Int)) and [`DrawerState.close()`](https://developer.android.com/reference/kotlin/androidx/compose/material/DrawerState#close()). To fix that, provide corresponding coroutineScope bound to the composition.
+
+### CompositionLocal
+There is a way to pass values down the UI hierarchy of Composable functions without providing them as a function parameters. It is convenient way of passing frequently used across all application values like colors.
+```kotlin
+@Composable
+fun MyApp() {
+    // Theme information tends to be defined near the root of the application
+    val colors = colors()
+}
+
+// Some composable deep in the hierarchy
+@Composable
+fun SomeTextLabel(labelText: String) {
+    Text(
+        text = labelText,
+        color = colors.onPrimary // ← need to access colors here
+    )
+}
+```
+To implement this CompositionLocal is used
+`CompositionLocal` is what the Material theme uses under the hood. [`MaterialTheme`](https://developer.android.com/reference/kotlin/androidx/compose/material/MaterialTheme) is an object that provides three `CompositionLocal` instances——colors, typography and shapes——allowing you to retrieve them later in any descendant part of the Composition. Specifically, these are the `LocalColors`, `LocalShapes`, and `LocalTypography` properties that you can access through the `MaterialTheme` `colors`, `shapes`, and `typography` attributes.
+```kotlin
+@Composable
+fun MyApp() {
+    // Provides a Theme whose values are propagated down its `content`
+    MaterialTheme {
+        // New values for colors, typography, and shapes are available
+        // in MaterialTheme's content lambda.
+
+        // ... content here ...
+    }
+}
+
+// Some composable deep in the hierarchy of MaterialTheme
+@Composable
+fun SomeTextLabel(labelText: String) {
+    Text(
+        text = labelText,
+        // `primary` is obtained from MaterialTheme's
+        // LocalColors CompositionLocal
+        color = MaterialTheme.colors.primary
+    )
+}
+
+```
+
+### Layout basics
+Compose handle nested layouts very effectively, because of the smart recomposition with skipping elements, in oppose to Android view, where nested layout is not suggested due to performanse issues.
+Modifiers play a role similar to that of layout parameters in view-based layouts. However, since modifiers are sometimes scope-specific, they offer type safety and also help you to discover and understand what is available and applicable to a certain layout. With XML layouts, it is sometimes hard to find out if a particular layout attribute is applicable to a given view.
+In order to know the constraints coming from the parent and design the layout accordingly, you can use a `BoxWithConstraints`. The [measurement constraints](https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/BoxWithConstraintsScope) can be found in the scope of the content lambda. You can use these measurement constraints to compose different layouts for different screen configurations:
+```kotlin
+@Composable
+fun WithConstraintsComposable() {
+    BoxWithConstraints {
+        Text("My minHeight is $minHeight while my maxWidth is $maxWidth")
+    }
+}
+
+```
+
+Material components make heavy use of slot APIs, a pattern Compose introduces to bring in a layer of customization on top of composables. This approach makes components more flexible, as they accept a child element which can configure itself rather than having to expose every configuration parameter of the child. Slots leave an empty space in the UI for the developer to fill as they wish. For example, these are the slots that you can customize in a TopAppBar:
+![[Pasted image 20240109140630.png]]
+A diagram showing the available slots in a Material Components app bar
+[`Scaffold`](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#Scaffold(androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function0,kotlin.Function0,kotlin.Function0,androidx.compose.material3.FabPosition,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.foundation.layout.WindowInsets,kotlin.Function1)) allows you to implement a UI with the basic Material Design layout structure. `Scaffold`provides slots for the most common top-level Material components, such as [`TopAppBar`](https://material.io/components/app-bars-top), [`BottomAppBar`](https://material.io/components/app-bars-bottom/), [`FloatingActionButton`](https://material.io/components/buttons-floating-action-button/), and [`Drawer`](https://material.io/components/navigation-drawer/). By using `Scaffold`, it's easy to make sure these components are properly positioned and work together correctly.
+```kotlin
+@Composable
+fun HomeScreen(/*...*/) {
+    ModalNavigationDrawer(drawerContent = { /* ... */ }) {
+        Scaffold(
+            topBar = { /*...*/ }
+        ) { contentPadding ->
+            // ...
+        }
+    }
+}
+```
+
+It's a best practice to have _all_ of your composables accept a `modifier` parameter, and pass that modifier to its first child that emits UI. Doing so makes your code more reusable and makes its behavior more predictable and intuitive.
+
+In order to create modifier for element we can chain the Modifier class functions. Order in which we chain them is significant, as the function is applied to the previously returned value of Modifier.
+```kotlin
+@Composable
+fun ArtistCard(/*...*/) {
+    val padding = 16.dp
+    Column(
+        Modifier
+            .clickable(onClick = onClick)
+            .padding(padding)
+            .fillMaxWidth()
+    ) {
+        // rest of the implementation
+    }
+}
+
+```
+
+In Compose there are modifier functions that can only be applied in a certain scope. This prevents developer from applying not working modifiers to the element, as each modifier is scoped to a certain scoped and cannot be applied elsewhere.
