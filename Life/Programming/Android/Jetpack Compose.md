@@ -716,3 +716,15 @@ fun ArtistCard(/*...*/) {
 ```
 
 In Compose there are modifier functions that can only be applied in a certain scope. This prevents developer from applying not working modifiers to the element, as each modifier is scoped to a certain scoped and cannot be applied elsewhere.
+
+Modifiers work like the wrapper of Composable node. Starting from the first modifier down to the Composable node they wrap each other:
+![[Pasted image 20240110083340.png]]
+
+At a high level, the algorithm works in the following way:
+1. To decide the size it actually wants to occupy, the root node in the UI tree measures its children and forwards the same constraints to its first child.
+2. If the child is a modifier that does not impact measurement, it forwards the constraints to the next modifier. The constraints are passed down the modifier chain as-is unless a modifier that impacts measurement is reached. The constraints are then re-sized accordingly.
+3. Once a node is reached that doesn't have any children (referred to as a "leaf node"), it decides its size based on the constraints that were passed in, and returns this resolved size to its parent.
+4. The parent adapts its constraints based on this child's measurements, and calls its next child with these adjusted constraints.
+5. Once all children of a parent are measured, the parent node decides on its own size and communicates that to its own parent.
+6. This way, the whole tree is traversed depth-first. Eventually, all the nodes have decided on their sizes, and the measurement step is completed.
+
