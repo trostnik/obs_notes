@@ -415,7 +415,7 @@ Integer result = future.get();
 System.out.println("future done? " + future.isDone());
 System.out.print("result: " + result);
 ```
-## Mutext and Semaphore
+## Mutex and Semaphore
 In a multithreaded application, two or more threads may need to access a shared resource at the same time, resulting in unexpected behavior. Examples of such shared resources are data-structures, input-output devices, files, and network connections.
 
 We call this scenario a race condition. And, the part of the program which accesses the shared resource is known as the critical section. So, to avoid a race condition, we need to synchronize access to the critical section.
