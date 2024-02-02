@@ -676,3 +676,209 @@ class ExampleContentProvider: ContentProvider() {
   }
 }
 ```
+
+![[Pasted image 20240202081122.png]]
+
+## Koin
+Koin is a lightweight DI framework based on Kotlin DSL code.
+`KoinApplication` (dependency graph) is an instance of koin framework container that contains modules, loggers and properties. We can use `startKoin {}` (usually inside custom application class) to create instance of `KoinApplication` and register it into `GlobalContext` (singleton that holds `KoinApplication`).
+To create module we can use `module{}` function. Inside it we can use `single` function for creating singleton object. These objects will be retrieved by Koin container and the same unique instance will be provided. By using `factory` function we tell Koin container not to keep unique instance of class, though new instance of a type will be provided each time it requested: 
+```kotlin
+val myModule = module {
+
+    // declare Service as single instance
+    single { Service() }
+    // declare factory instance for Controller class
+    factory { Controller(get()) }
+}
+```
+
+To provide implementation of interface we can use `single<>` function generic type or `as` construction:
+```kotlin
+// Service interface
+interface Service{
+
+    fun doSomething()
+}
+
+// Service Implementation
+class ServiceImp() : Service {
+
+    fun doSomething() { ... }
+}
+
+val myModule = module {
+
+    // Will match type ServiceImp only
+    single { ServiceImp() }
+
+    // Will match type Service only
+    single<Service> { ServiceImp() }
+
+}
+```
+
+If we want to create provide function which provides both implementation and interface we can use `bind` function. This way we can resolve both interface and implementation:
+```kotlin
+val myModule = module {
+
+    // Will match types ServiceImp & Service
+    single { ServiceImp() } bind Service::class
+}
+```
+For different implementations of the same type we can use `named` function to distinguish them:
+```kotlin
+val myModule = module {
+    single<Service>(named("default")) { ServiceImpl() }
+    single<Service>(named("test")) { ServiceImpl() }
+}
+
+val service : Service by inject(qualifier = named("default"))
+```
+
+In order to use parameters (Assisted injection) we can define it inside module and use `by inject()` constuction with `parametersOf()` function:
+
+```kotlin
+class Presenter(val view : View)
+
+val myModule = module {
+    single{ (view : View) -> Presenter(view) }
+}
+
+val presenter : Presenter by inject { parametersOf(view) }
+
+
+```
+
+`createdAtStart` flag can be used to teel Koin component to create instance or module at the start of `KoinApplication`:
+```kotlin
+val myModuleA = module {
+
+    single<Service> { ServiceImp() }
+}
+
+val myModuleB = module {
+
+    // eager creation for this definition
+    single<Service>(createdAtStart=true) { TestServiceImp() }
+}
+```
+
+```kotlin
+val myModuleA = module {
+
+    single<Service> { ServiceImp() }
+}
+
+val myModuleB = module(createdAtStart=true) {
+
+    single<Service>{ TestServiceImp() }
+}
+```
+
+koin doesn't understand difference between two same types but with different generic parameters. So you have to use `named` function to resolve them correctly:
+```kotlin
+module {
+    single(named("Ints")) { ArrayList<Int>() }
+    single(named("Strings")) { ArrayList<String>() }
+}
+```
+
+We can include modules into other modules:
+```kotlin
+// `:feature` module
+val childModule1 = module {
+    /* Other definitions here. */
+}
+val childModule2 = module {
+    /* Other definitions here. */
+}
+val parentModule = module {
+    includes(childModule1, childModule2)
+}
+
+// `:app` module
+startKoin { modules(parentModule) }
+```
+
+In order to get instances inside class provided by `KoinApplication` defined inside modules we have to implement KoinComponent interface and then use koin DSL:
+```kotlin
+class MyComponent : KoinComponent {
+
+    // lazy inject Koin instance
+    val myService : MyService by inject()
+
+    // or
+    // eager (immediate) inject Koin instance
+    val myService : MyService = get()
+
+	// retrieve named instance from given module
+	val a = get<ComponentA>(named("A"))
+}
+```
+
+We can use parameters inside injected components:
+```kotlin
+class Presenter(val a : A, val b : B)
+
+val myModule = module {
+    single { params -> Presenter(a = params.get(), b = params.get()) }
+}
+
+class MyComponent : View, KoinComponent {
+
+    val a : A ...
+    val b : B ... 
+
+    // inject this as View value
+    val presenter : Presenter by inject { parametersOf(a, b) }
+}
+```
+
+By default in Koin, we have 3 kind of scopes:
+
+- `single` definition, create an object that persistent with the entire container lifetime (can't be dropped).
+- `factory` definition, create a new object each time. Short live. No persistence in the container (can't be shared).
+- `scoped` definition, create an object that persistent tied to the associated scope lifetime.
+
+To created scoped definition use the following construction: 
+```kotlin
+module {
+    scope<MyType>{
+        scoped { Presenter() }
+        // ...
+    }
+}
+```
+
+`scope<A> { }` is equivalent to `scope(named<A>()){ }` , but more convenient to write. Note that you can also use a string qualifier like: `scope(named("SCOPE_NAME")) { }`:
+
+```kotlin
+class A : KoinScopeComponent {
+    override val scope: Scope by lazy { newScope(this) }
+
+    // resolve B as inject
+    val b : B by inject() // inject from scope
+
+    // Resolve B
+    fun doSomething(){
+        val b = get<B>()
+    }
+
+    fun close(){
+        scope.close() // don't forget to close current scope
+    }
+}
+```
+
+Once your scope instance is finished, just closed it with the `close()` function:
+
+```kotlin
+// from a KoinComponent 
+val scope = getKoin().createScope<A>()
+
+// use it ...
+
+// close it
+scope.close()
+```
