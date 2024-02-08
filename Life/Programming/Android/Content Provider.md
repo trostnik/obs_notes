@@ -8,7 +8,7 @@ Content provider also is used when:
 - You want to copy and paste complex data or files from your application to other applications
 	Content provider allows to control permissions for accessing data.
 	
-You can use a content provider to abstract away the details for accessing different data sources in your application. For example, your application might store structured records in a SQLite database, as well as video and audio files. You can use a content provider to access all of this data, if you implement this development pattern in your application.
+You can use a content provider to abstract away the details for accessing different data sources in your application. For example, your application might store structured records in a SQLite database, as well as video and audio files (we can use FileProvider, it handles file sharing in a secure way, granting temporary permissions to application requesting files). You can use a content provider to access all of this data, if you implement this development pattern in your application.
 
 Content provider provides data in a form like typical SQL relational database. It consists of rows and columns. Rows represent one instance of data that is collect, column represent piece of this data (some field).
 

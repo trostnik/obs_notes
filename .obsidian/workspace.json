@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Life/Programming/Android/DI.md",
+                "file": "Life/Programming/Android/Jetpack Compose.md",
                 "mode": "source",
                 "source": false
               }
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/DI.md",
+                "file": "Life/Programming/Android/Jetpack Compose.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/DI.md",
+                "file": "Life/Programming/Android/Jetpack Compose.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -133,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/DI.md"
+                "file": "Life/Programming/Android/Jetpack Compose.md"
               }
             }
           },
@@ -168,37 +168,39 @@
   },
   "active": "3de7c062978c2b5e",
   "lastOpenFiles": [
+    "Life/Programming/Android/Data structures.md",
+    "Life/Programming/Android/Custom View.md",
+    "Life/Programming/Android/Coroutines.md",
+    "Life/Programming/Android/Content Provider.md",
+    "Life/Programming/Android/Cicerone.md",
+    "Life/Programming/Android/Broadcast Receiver.md",
+    "Life/Programming/Android/Activity.md",
+    "Life/Programming/Android/Kotlin constructor.md",
+    "Life/Programming/Android/MVI.md",
+    "Life/Programming/Android/Services.md",
+    "Life/Programming/Android/Fragment.md",
+    "Life/Programming/Android/Kotlin Coroutines.md",
+    "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
+    "Life/Programming/Android/Intents.md",
+    "Life/Programming/Android/DI.md",
     "Pasted image 20240202081122.png",
     "Life/Programming/Android/Dependecy Injection.md",
-    "Life/Programming/Android/DI.md",
-    "Life/Programming/Android/Activity.md",
     "Pasted image 20240129142900.png",
     "Pasted image 20240129142834.png",
     "Life/Programming/Android/Testing.md",
-    "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
     "Life/Programming/Android/Jetpack Compose.md",
-    "Life/Programming/Android/Fragment.md",
     "Pasted image 20240110083340.png",
     "Pasted image 20240109140630.png",
     "Pasted image 20231229171618.png",
     "Pasted image 20231229171325.png",
-    "Life/Programming/Android/Custom View.md",
-    "Life/Programming/Android/Services.md",
-    "Life/Programming/Android/Kotlin Coroutines.md",
     "Pasted image 20230924085209 — копия.png",
-    "Life/Programming/Android/Coroutines.md",
     "Life/Programming/Android/Untitled.md",
     "Pasted image 20230924085209.png",
     "Pasted image 20230924085046.png",
-    "Pasted image 20230923200646.png",
     "Life/Programming/Android/Covariance, contravariance, invariance.md",
-    "Life/Programming/Android/Content Provider.md",
-    "Life/Programming/Android/Data structures.md",
     "Life/Programming/Android/Patterns.md",
-    "Life/Programming/Android/Kotlin constructor.md",
     "Life/Programming/Android/Kotlin companion.md",
     "Life/Programming/Learning Course.md",
-    "Life/Programming/Android/Kotlin lambda variable capture.md",
-    "Life/Programming/Android/MVI.md"
+    "Life/Programming/Android/Kotlin lambda variable capture.md"
   ]
 }

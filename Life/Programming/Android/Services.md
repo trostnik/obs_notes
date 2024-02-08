@@ -29,3 +29,22 @@ START_REDELIVER_INTENT
 If the system kills the service after onStartCommand() returns, recreate the service and call onStartCommand() with the last intent that was delivered to the service. Any pending intents are delivered in turn. This is suitable for services that are actively performing a job that should be immediately resumed, such as downloading a file.
 
 To start a Service we can use startForegroundService(), which means that we create a promise that Service itself will call startForeground() within 5 seconds, but it is initially started in the background. Or we can use startService() which immediately starts background service. We can make multiple calls to startService(), it will trigger onStartCommand() each time, but Service will be the same and we need to call stopSelf() or stopService() only once.
+
+
+Some of the Service **usecases** from my experience:
+
+to implement
+
+1. location listener,
+2. sound module, generating various voices
+3. in app content updates,
+4. API, provide services to other apps
+5. in app billing
+6. Communication with webservices (if requests frequency is high)
+7. Music player
+8. Downloading files
+9. Live wallpapers,
+10. Notification listeners
+11. Screen savers
+12. Input methods
+13. Accessibility services
