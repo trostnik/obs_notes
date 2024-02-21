@@ -48,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#commit_hash",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -73,7 +73,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -166,7 +167,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3de7c062978c2b5e",
+  "active": "5a90e4ec589f9fc0",
   "lastOpenFiles": [
     "Pasted image 20240215173838.png",
     "Pasted image 20240215170059.png",
