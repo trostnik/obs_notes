@@ -48,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#commit_hash",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -73,8 +73,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -167,12 +166,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5a90e4ec589f9fc0",
+  "active": "3de7c062978c2b5e",
   "lastOpenFiles": [
-    "Pasted image 20240215173838.png",
-    "Pasted image 20240215170059.png",
     "Life/Programming/Android/ООП.md",
     "Life/Programming/Android/Git, git-flow.md",
+    "Pasted image 20240215173838.png",
+    "Pasted image 20240215170059.png",
     "Pasted image 20240214155948.png",
     "Life/Programming/Android/Jetpack Compose.md",
     "Life/Programming/Android/Data structures.md",
@@ -199,7 +198,6 @@
     "Pasted image 20240109140630.png",
     "Pasted image 20231229171618.png",
     "Pasted image 20231229171325.png",
-    "Pasted image 20230924085209 — копия.png",
     "Life/Programming/Android/Untitled.md",
     "Life/Programming/Android/Covariance, contravariance, invariance.md",
     "Life/Programming/Android/Patterns.md",
