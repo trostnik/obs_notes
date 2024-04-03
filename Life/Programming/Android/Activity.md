@@ -7,8 +7,10 @@ app that wants to use our app as a way to send message open message screen at th
 We need to write the name of activity in manifest. Also there we can provide intent filters which allow us to
 enter an activity from more general call(like SEND_MESSAGE(Implicit intent)). Activity that requests
 other activity needs to have the same permissions.
-Activity has lifecycle. Each state of licecycle is provided with a callbac
-k: onCreate(), onStart(),
+
+You define intent-filters for activities that you want to be accessible from another application. If you want activity to be accessible only from your own app, you can use explicit Intents (by Activity name).
+
+Activity has lifecycle. Each state of licecycle is provided with a callback: onCreate(), onStart(),
 onResume(), onPause(), onStop(), onDestroy(). 
 
 **onCreate()** is used to make initialization of components that will be initialized only once. Binding

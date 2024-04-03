@@ -23,14 +23,13 @@ The build system lets you specify signing settings in the build configuration, a
 
 #### Multiple APK support
 You can define different code for different screen density or Android Application Binary Interface and compile only the code and resources need for it and package them into APK. However AAB is now a prefered approach because it lets you define splitting by language.
-
-
 #### Android app bundle 
-An _Android App Bundle_ is a publishing format that includes all your app’s compiled code and resources, and defers APK generation and signing to Google Play.
+An _Android App Bundle_ is a publishing format that includes all your app’s compiled code and resources, and delegates APK generation and signing to Google Play. AAB contains information about device configuration. 
 
-Google Play uses your app bundle to generate and serve optimized APKs for each device configuration, so only the code and resources that are needed for a specific device are downloaded to run your app. You no longer have to build, sign, and manage multiple APKs to optimize support for different devices, and users get smaller, more-optimized downloads.
+Google Play uses your app bundle to generate and serve optimized APKs for each device configuration, so only the code (for example native libraries that run on different cpu differently) and resources that are needed for a specific device are downloaded to run your app. You no longer have to build, sign, and manage multiple APKs to optimize support for different devices, and users get smaller, more-optimized downloads.
 
-
+AAB is a **publishing** format used only in Google Play, if delegates generating APKs for different devices to Google Play cloud services. It can't be installed directly.
+APK is a **packaging** format and is consequently installed on a device anyways.
 #### Gradle Wrapper
 Gradle wrapper - is an application which performs installing and launching gradle.  In gradle-wrapper.properties we define gradle version and other stuff. We use `gradlew` to perform downloading of Gradle distribution and starting build of the current project.
 
@@ -410,3 +409,104 @@ Inside dependency block we can use different configurations:
 | `lintChecks`                       | Use this configuration to include a library containing lint checks you want Gradle to execute when building your Android app project.                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `lintPublish`                      | Use this configuration in Android library projects to include lint checks you want Gradle to compile into a `lint.jar` file and package in your AAR. This causes projects that consume your AAR to also apply those lint checks. If you were previously using the `lintChecks` dependency configuration to include lint checks in the published AAR, you need to migrate those dependencies to instead use the `lintPublish` configuration.<br>                                                                                                             |
 |                                    | Used for publishing library that use lints.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+To add a remote binary dependency only to your "free" product flavor you must capitalize the configuration name and prefix it with the name of the build variant or testing source set. If you are using the `implementation` configuration, use this:
+
+```kotlin
+dependencies {
+    freeImplementation("com.google.firebase:firebase-ads:21.5.1")
+}
+```
+However, if you want to add a dependency for a variant that combines a product flavor and a build type, then you must initialize the configuration name
+
+```kotlin
+// Initializes a placeholder for the freeDebugImplementation dependency configuration.
+val freeDebugImplementation by configurations.creating
+
+dependencies {
+    freeDebugImplementation(project(":free-support"))
+}
+```
+
+The build file also declares a dependency on the Android Gradle plugin (`com.application.android`). If you have multiple modules that use the same plugin, you can only have a single version of the plugin on the build classpath across all modules. Instead of specifying the version in each of the module build scripts, you should include the plugin dependency in the root build script with the version, and indicate to not apply it. Adding `apply false` tells Gradle to note the version of the plugin but not to use it in the root build. Typically the root build script is empty except for this `plugins` block.
+
+```kotlin
+plugins {
+    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
+}
+```
+
+Gradle automatically add dependency need for your other dependencies (transitive dependencies). But if your module includes needed dependency directly you can exclude it:
+```kotlin
+dependencies {
+    implementation("some-library") {
+        exclude(group = "com.example.imgtools", module = "native")
+    }
+}
+```
+
+The Android plugin for Gradle provides a task that displays a list of the dependencies Gradle resolves for a given module.
+
+For each module, the report also groups the dependencies based on build variant, testing source set, and classpath. The following is sample report for an app module's runtime classpath of its debug build variant and compile classpath of its instrumented test source set.
+
+```
+debugRuntimeClasspath - Dependencies for runtime/packaging
++--- :mylibrary (variant: debug)
++--- com.google.android.material:material:1.0.0@aar
++--- androidx.appcompat:appcompat:1.0.2@aar
++--- androidx.constraintlayout:constraintlayout:1.1.3@aar
++--- androidx.fragment:fragment:1.0.0@aar
++--- androidx.vectordrawable:vectordrawable-animated:1.0.0@aar
++--- androidx.recyclerview:recyclerview:1.0.0@aar
++--- androidx.legacy:legacy-support-core-ui:1.0.0@aar
+...
+
+debugAndroidTest
+debugAndroidTestCompileClasspath - Dependencies for compilation
++--- androidx.test.ext:junit:1.1.0@aar
++--- androidx.test.espresso:espresso-core:3.1.1@aar
++--- androidx.test:runner:1.1.1@aar
++--- junit:junit:4.12@jar
+...
+```
+
+To run the task, proceed as follows:
+1. Select **View > Tool Windows > Gradle** (or click **Gradle** ![](https://developer.android.com/static/studio/images/buttons/window-gradle.png) in the tool windows bar).
+2. Expand **AppName > Tasks > android** and double-click **androidDependencies**. After Gradle executes the task, the **Run** window should open to display the output.
+
+When your dependency is something other than a local library or file tree, Gradle looks for the files in whichever online repositories are specified in the `dependencyResolutionManagement { repositories {...} }` block of your `settings.gradle` file. The order in which you list each repository determines the order in which Gradle searches the repositories for each project dependency. For example, if a dependency is available from both repository A and B, and you list A first, Gradle downloads the dependency from repository A.
+
+#### Build your app for release to users
+
+ bookmark_border
+
+The **Run** ![](https://developer.android.com/static/studio/images/buttons/toolbar-run.png) button builds and deploys your app to a device. However, to build your app to share or upload to Google Play, you'll need to use one of the options in the **Build** menu to compile parts or all of your project. Before you select any of the build options listed in table 1, make sure you first [select the build variant](https://developer.android.com/studio/run#changing-variant) you want to use.
+
+**Table 1.** Build options in the **Build** menu.
+
+|Menu Item|Description|
+|---|---|
+|**Make Module**|Compiles all source files in the selected module that have been modified since the last build, and all modules the selected module depends on recursively. The compilation includes dependent source files and any associated build tasks. You can select the module to build by selecting either the module name or one of its files in the **Project** window.|
+|**Make Project**|Makes all modules.|
+|**Clean Project**|Deletes all intermediate/cached build files.|
+|**Rebuild Project**|Runs **Clean Project** for the selected build variant and produces an APK.|
+|**Build Bundle(s) / APK(s) > Build APK(s)**|Builds an APK of all modules in the current project for their selected variant. When the build completes, a confirmation notification appears, providing a link to the APK file and a link to analyze it in the [APK Analyzer](https://developer.android.com/studio/debug/apk-analyzer).<br><br>If the build variant you've selected is a debug build type, then the APK is signed with a debug key and it's ready to install. If you've selected a release variant, then, by default, the APK is unsigned and you must manually [sign the APK](https://developer.android.com/studio/publish/app-signing). Alternatively, you can select **Build > Generate Signed Bundle / APK** from the menu bar.<br><br>Android Studio saves the APKs you build in `project-name/module-name/build/outputs/apk/`.|
+|**Build Bundle(s) / APK(s) > Build Bundle(s)**|Builds an [Android App Bundle](https://developer.android.com/guide/app-bundle) of all modules in the current project for their selected variant. When the build completes, a confirmation notification appears, providing a link to the app bundle and a link to analyze it in the [APK Analyzer](https://developer.android.com/studio/debug/apk-analyzer).<br><br>If the build variant you've selected is a debug build type, then the app bundle is signed with a debug key, and you can [use `bundletool`](https://developer.android.com/studio/command-line/bundletool) to deploy your app from the app bundle to a connected device. If you've selected a release variant, then the app bundle is unsigned by default and you must manually sign it using [`jarsigner`](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/jarsigner.html). Alternatively, you can select **Build > Generate Signed Bundle / APK** from the menu bar.<br><br>Android Studio saves the APKs you build in `project-name/module-name/build/outputs/bundle/`.|
+|**Generate Signed Bundle / APK**|Brings up a dialog with a wizard to set up a new signing configuration, and build either a signed app bundle or APK. You need to sign your app with a release key before you can upload it to the Play Console. For more information about app signing, see [Sign your app](https://developer.android.com/studio/publish/app-signing).|
+
+**Note:** The **Run** ![](https://developer.android.com/static/studio/images/buttons/toolbar-run.png) button builds an APK with `[testOnly="true"](https://developer.android.com/guide/topics/manifest/application-element#testOnly)`, which means the APK can only be installed via `[adb](https://developer.android.com/studio/command-line/adb)` (which Android Studio uses). If you want a debuggable APK that people can install without adb, select your debug variant and click **Build Bundle(s) / APK(s) > Build APK(s)**.
+
+For details about the tasks that Gradle executes for each command, open the **Build** window as described in the next section. For more information about Gradle and the build process, see [Configure Your Build](https://developer.android.com/studio/build).
+
+#### Command line
+
+To build a debug APK, open a command line and navigate to the root of your project directory. To initiate a debug build, invoke the `assembleDebug` task:
+
+gradlew assembleDebug
+
+This creates an APK named `module_name-debug.apk` in `project_name/module_name/build/outputs/apk/`. The file is already signed with the debug key and aligned with [`zipalign`](https://developer.android.com/tools/help/zipalign), so you can immediately install it on a device.
+
+Or to build the APK and immediately install it on a running emulator or connected device, instead invoke `installDebug`:
+
+gradlew installDebug
+
+The "Debug" part in the above task names is just a camel-case version of the [build variant](https://developer.android.com/studio/build/build-variants) name, so it can be replaced with whichever build type or variant you want to assemble or install. For example, if you have a "demo" product flavor, then you can build the debug version with the `assembleDemoDebug` task.
