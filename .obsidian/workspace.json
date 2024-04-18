@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Life/Programming/Android/Services.md",
+                "file": "Life/Philosophy/Философия философии (метафилософия)/Формы мировоззрения.md",
                 "mode": "source",
                 "source": false
               }
@@ -25,14 +25,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Life/Programming/Android/Services.md",
+                "file": "Life/Philosophy/Словарь.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -106,7 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Life/Programming/Android/Services.md",
+                "file": "Life/Philosophy/Философия философии (метафилософия)/Формы мировоззрения.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Life/Programming/Android/Services.md",
+                "file": "Life/Philosophy/Философия философии (метафилософия)/Формы мировоззрения.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +145,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Life/Programming/Android/Services.md"
+                "file": "Life/Philosophy/Философия философии (метафилософия)/Формы мировоззрения.md"
               }
             }
           },
@@ -179,15 +178,24 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ab6ceb453661ebf5",
+  "active": "0f64a51b10785b22",
   "lastOpenFiles": [
+    "Life/Philosophy/Словарь.md",
+    "Life/Philosophy/Философия философии (метафилософия)/Формы мировоззрения.md",
+    "Life/Philosophy/Философия философии (метафилософия)/Мировоззрение. Его сущность и структура.md",
+    "Life/Philosophy/Зачем нужна философия.md",
+    "Life/Programming/Android/Services.md",
+    "Life/Philosophy/Философия философии (метафилософия)",
+    "Life/Programming/Android/Broadcast Receiver.md",
+    "Pasted image 20240417155707.png",
+    "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
+    "Life/Philosophy",
+    "Life/Новая папка",
     "Life/Programming/Android/Kotlin Coroutines.md",
     "Life/Programming/Android/Coroutines.md",
-    "Life/Programming/Android/Services.md",
     "Life/Programming/Android/Activity.md",
     "Life/Programming/Android/DI.md",
     "Life/Programming/Android/Dependecy Injection.md",
-    "Life/Programming/Android/MultiThreading, Handler, Looper, MessageQueue.md",
     "Life/Programming/Android/Gradle.md",
     "Life/Programming/Android/OkHttp.md",
     "Life/Programming/Android/HashMap.md",
@@ -203,19 +211,13 @@
     "Life/Programming/Android/Custom View.md",
     "Life/Programming/Android/Content Provider.md",
     "Life/Programming/Android/Cicerone.md",
-    "Life/Programming/Android/Broadcast Receiver.md",
     "Life/Programming/Android/Kotlin constructor.md",
     "Life/Programming/Android/MVI.md",
     "Life/Programming/Android/Intents.md",
     "Pasted image 20240202081122.png",
     "Pasted image 20240129142900.png",
     "Pasted image 20240129142834.png",
-    "Life/Programming/Android/Testing.md",
     "Pasted image 20240110083340.png",
-    "Pasted image 20240109140630.png",
-    "Pasted image 20231229171618.png",
-    "Life/Programming/Android/Untitled.md",
-    "Life/Programming/Android/Covariance, contravariance, invariance.md",
-    "Life/Programming/Android/Patterns.md"
+    "Pasted image 20240109140630.png"
   ]
 }

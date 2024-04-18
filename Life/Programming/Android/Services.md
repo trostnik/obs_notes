@@ -63,6 +63,208 @@ To work with **inherited Binder** you have to do the following:
 - Create custom inner class that extends Binder and create public methods that would return instance of the service
 - Get binder inside ServiceConnection in client component and get instance of service
 - Call public methods of service
+```kotlin
+class LocalService : Service() {
+    // Binder given to clients.
+    private val binder = LocalBinder()
+
+    // Random number generator.
+    private val mGenerator = Random()
+
+    /** Method for clients.  */
+    val randomNumber: Int
+        get() = mGenerator.nextInt(100)
+
+    /**
+     * Class used for the client Binder. Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with IPC.
+     */
+    inner class LocalBinder : Binder() {
+        // Return this instance of LocalService so clients can call public methods.
+        fun getService(): LocalService = this@LocalService
+    }
+
+    override fun onBind(intent: Intent): IBinder {
+        return binder
+    }
+}
+
+class BindingActivity : Activity() {
+    private lateinit var mService: LocalService
+    private var mBound: Boolean = false
+
+    /** Defines callbacks for service binding, passed to bindService().  */
+    private val connection = object : ServiceConnection {
+
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance.
+            val binder = service as LocalService.LocalBinder
+            mService = binder.getService()
+            mBound = true
+        }
+
+        override fun onServiceDisconnected(arg0: ComponentName) {
+            mBound = false
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.main)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Bind to LocalService.
+        Intent(this, LocalService::class.java).also { intent ->
+            bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unbindService(connection)
+        mBound = false
+    }
+
+    /** Called when a button is clicked (the button in the layout file attaches to
+     * this method with the android:onClick attribute).  */
+    fun onButtonClick(v: View) {
+        if (mBound) {
+            // Call a method from the LocalService.
+            // However, if this call is something that might hang, then put this request
+            // in a separate thread to avoid slowing down the activity performance.
+            val num: Int = mService.randomNumber
+            Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+```
+
+
+In order to perform Inter-process communication you have to do the following:
+1. Implement custom handler that would handle messages from other application
+2. Create Messenger that would take handler as an argument
+3. Pass binder that we can get from the messenger (Messenger.getBinder()) into onBind method of the service
+4. Inside client application create ServiceConnection and create Messenger with serivce: IBinder received in onServiceConnected callback
+5. Send messages to the service using created Messenger
+6. Inside client application create custom Handler to implement two-way communication and pass it in replyTo field of the message in order the service to be able to send messages back/
+
+```kotlin
+class IPCService : Service() {
+
+    companion object {
+        private const val MSG_SET_NUMBER = 3
+        const val IPC_ACTION = "com.example.coroutines.servicetest.IPC_ACTION"
+    }
+
+
+    internal class IPCHandler(private val context: Context,  looper: Looper = Looper.getMainLooper()) : Handler(looper) {
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                MSG_SET_NUMBER -> {
+                    val number = msg.data.getInt("DOUBLE", 0)
+                    val messenger = msg.replyTo
+                    messenger?.send(
+                        Message.obtain(
+                            null,
+                            MSG_SET_NUMBER
+                        ).apply {
+                            data = bundleOf("DOUBLE" to number * number)
+                        }
+                    )
+                    Toast.makeText(context, "Service is working!", Toast.LENGTH_SHORT).show()
+                }
+
+                else -> super.handleMessage(msg)
+            }
+
+        }
+    }
+
+    private val messenger: Messenger = Messenger(IPCHandler(this))
+
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return messenger.binder
+    }
+}
+
+class MainActivity : ComponentActivity() {
+
+    private lateinit var editText: EditText
+    private lateinit var button: Button
+    private lateinit var textView: TextView
+
+
+
+    private companion object {
+        private const val MSG_RECEIVE = 3
+    }
+
+    class IPCHandler(private val textView: WeakReference<TextView>): Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            when(msg.what) {
+                MSG_RECEIVE -> {
+                    val value = msg.data.getInt("DOUBLE")
+                    textView.get()?.text = value.toString()
+                }
+                else -> super.handleMessage(msg)
+            }
+
+        }
+    }
+
+
+    private var mService: Messenger? = null
+
+    private var bound = false
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            mService = Messenger(service)
+            bound = true
+
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            bound = false
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.main_activity)
+        editText = findViewById(R.id.numberId)
+        textView = findViewById(R.id.resultId)
+        val messenger = Messenger(IPCHandler(WeakReference(textView)))
+        button = findViewById<Button>(R.id.calculateButton).apply {
+            setOnClickListener {
+                Intent("com.example.coroutines.servicetest.IPCService").also {
+                    it.`package` = "com.example.coroutines.servicetest"
+                    bindService(it, serviceConnection, BIND_AUTO_CREATE)
+                }
+                if(bound) {
+                    editText.text?.let {
+                        sendMsgToService(Integer.valueOf(it.toString()), messenger)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun sendMsgToService(msg: Int, messenger: Messenger) {
+        val message = Message.obtain(null, MSG_RECEIVE).apply {
+            data = bundleOf("DOUBLE" to msg)
+        }
+        message.replyTo = messenger
+        mService?.send(message)
+    }
+}
+```
+
+Lifecycle of Bound Service
+![[Pasted image 20240417155707.png]]
 
   
 Some of the Service **usecases** from my experience:
